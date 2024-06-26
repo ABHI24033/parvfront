@@ -1,0 +1,18 @@
+.homeServices{
+    color: white;
+    background-color: #0c0c37;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+
+}
+
+.homeServices:hover {
+    background-color: blue !important;
+    color: white;
+
+}
+
+.loanIcon{
+    padding-right: 10px ;
+}

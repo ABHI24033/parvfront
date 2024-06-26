@@ -1,0 +1,73 @@
+
+
+.about-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Car-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/lp-car-image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.Contact-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+}
+.education-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.homeloan-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Loan-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Personal-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/page-header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.refinancel-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/hero-img-2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.refinancel-buttom-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/cta-img-3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.galary-header-page{
+    background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/background/lead-hero-img.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.text-primary{
+    color: rgb(79 79 153) !important;
+
+}
+.card-body h3{
+    color: #0b0b6a;
+   
+
+}
+.lead {
+    text-align: justify;
+}
+.pb-1{
+    text-align: justify;
+}

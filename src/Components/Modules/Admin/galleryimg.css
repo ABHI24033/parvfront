@@ -1,0 +1,36 @@
+.image-form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 40px 30px;
+    background-color:white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  input {
+    width: 100%;
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid #331bbf;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .buttonUSer {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .buttonUSer:hover {
+    background-color: #45a049;
+  }

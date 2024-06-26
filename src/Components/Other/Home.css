@@ -1,0 +1,151 @@
+/* .home-banner-one {
+  background-image: "linear-gradient(rgba(20, 30, 40, 0.5),rgba(20, 30, 40, 0.5)),rgba(20, 30, 40, 0.5) url("
+    ")no-repeat center";
+} */
+
+.home-banner-one {
+  background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/slider/slider-1.jpg");
+  /* background-repeat: no-repeat; */
+  background-size: 100% 100% !important;
+  /* background-size: cover; */
+  height: 100% !important;
+}
+
+.home-banner-two {
+  background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/slider/slider-2.jpg");
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+}
+
+.home-banner-three {
+  background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5)), url("../../assets/images/slider/slider-3.jpg");
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+}
+
+
+/* Your existing CSS styles for the popup */
+
+.close:focus {
+  outline: 1px dotted #fff !important;
+}
+
+.modal-body {
+  padding: 0rem !important;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+
+/* =================slider=================== */
+.slider_image {
+  width: 100% ;
+  height: 90vh;
+  /* background-color: red; */
+  /* filter: blur(1px); */
+}
+.slider_body{
+  width: 100%;
+  height: 35rem;
+  height: auto;
+  /* filter: blur(0.01rem); */
+}
+
+.slider_content {
+  /* background-color: rgba(0, 4, 10, 0.49); */
+  background: linear-gradient(rgba(20, 30, 40, 0.5), rgba(20, 30, 40, 0.5));
+  width: 100% !important;
+  height: 100%;
+  position: absolute;
+  /* top: 8rem; */
+  bottom: 0rem;
+  /* margin-left: 5rem; */
+  /* margin-right: auto; */
+  /* color: white; */
+  color: lightgray;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  flex-direction: column;
+}
+.slider_content>div{
+  /* background-color: red; */
+  position: absolute;
+  top: 5rem;
+  left: 0%;
+  width: 100%;
+  margin-left: 10rem;
+  z-index: 100;
+}
+
+.slider_content>div>h1 {
+  color: lightgray !important;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  padding-left: 2rem;
+}
+
+.slider_content>div>p {
+  color: lightgray !important;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  padding-left: 2rem;
+}
+
+.tns-outer>button {
+  display: none;
+}
+.modal-header {
+  background: #0c0c37;
+  color: #fff !important;
+}
+
+
+.notification-texts {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.notification-texts p {
+  text-align: left;
+}
+
+
+.notification-texts .date-time p {
+  font-size: 13px;
+}
+/* .sliderFirst{
+  height: 5rem;
+} */
+@media only screen and (max-width: 600px) {
+  .sliderFirst {
+    /* width: 20rem; */
+    height: 15rem;
+  }
+  .sliderFirst img{
+    height: 15rem;
+    width: 100%;
+  }
+  #sliderFirstControls{
+    display: none;
+  }
+  .slider_content>div{
+    right: 0%;
+    left: 0%;
+    /* height: 10rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    margin: auto;
+  }
+  .slider_content>div>p{
+   font-size: 1rem;
+  }
+}

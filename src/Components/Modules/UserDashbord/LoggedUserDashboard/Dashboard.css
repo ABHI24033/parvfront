@@ -1,0 +1,62 @@
+/* Sidebar.css */
+.sidebar {
+  width: 240px;
+  min-height: 110vh;
+  background-color: #06083ffc;
+ 
+  position: relative;
+  top: 10;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  transition: 0.5s;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.collapsed {
+  width: 45px; /* Adjust the width when collapsed as per your design */
+}
+.collapsed > i{
+  position: relative;
+ top: 50%;
+}
+
+.not-collapsed > i{
+  position: relative;
+  left: 5%;
+}
+
+.sidebar i{
+  padding: 0.5em 1em;
+  color: white;
+}
+.dashhboard-btn button {
+  font-size: 17px;
+  padding: 0.5em 2em;
+  border: transparent;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  background: white;
+  border-radius: 4px;
+  display: block;
+  margin-top: 3rem;
+  width: 50%;
+ }
+ 
+.dashhboard-btn button:hover {
+  background: rgb(116, 115, 255);
+ }
+ 
+ .dashhboard-btn button:active {
+  transform: translate(0em, 0.2em);
+ }
+
+ 

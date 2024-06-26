@@ -1,0 +1,16 @@
+.businessloan-banner-one {
+    background:  url("../../../assets/images/slider/business-slider-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .businessloan-banner-two {    
+    background:  url("../../../assets/images/slider/business-slider-2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .businessloan-banner-three {
+    background:  url("../../../assets/images/slider/business-slider-3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

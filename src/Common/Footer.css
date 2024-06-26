@@ -1,0 +1,68 @@
+.logo-img{
+    width: 100px;
+    height: auto;
+
+}
+.footer-links ul li a{
+    color: white;
+}
+.footer-links ul li a:hover{
+color:rgb(98 75 255);
+}
+
+.social-icons li a{
+    color: white;
+}
+.social-icons li a:hover{
+    color: rgb(98 75 255);
+}
+.signup-text{
+  font-size: 1.1rem;
+}
+.newsletter{
+   margin-left: 13rem;
+    
+}
+ .input{
+    min-height: 50px;
+    max-width: 250px;
+    padding: 0 1rem;
+    color: black;
+    font-size: 15px;
+    border: 1px solid #5e4dcd;
+    border-radius: 6px 0 0 6px;
+    background-color: white;
+}
+ .button--submit {
+    min-height: 50px;
+    max-width: 100px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    background-color: #5d5da1;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color .3s ease-in-out;
+  }
+
+  .button--submit:hover {
+    background-color: #5e5dcd;
+  }
+  .input:focus, .input:focus-visible {
+    border-color: #3898EC;
+    outline: none;
+  }
+
+  /* maps */
+  .maps{
+    width: 28rem;
+    height: 12.5rem;
+  }
+  @media only screen and (max-width: 600px) {
+    .maps {
+      background-color: lightblue;
+      width: 20rem;
+      height: 10rem;
+    }
+  }

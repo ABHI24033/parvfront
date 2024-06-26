@@ -1,0 +1,113 @@
+nav {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background: rgb(51, 87, 153);
+   padding: 10px 50px;
+   /* box-shadow: 0 5px 15px rgba(0,0,0.06); */
+   box-shadow: 0 2px 4px rgb(196, 195, 195);
+
+}
+
+#navbar {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+#navbar {
+   list-style: none;
+   padding: 0 20px;
+   position: relative;
+
+}
+
+#navbar li a {
+   text-decoration: none;
+   font-size: 1.3rem;
+   font-weight: 600;
+   color: aliceblue;
+   transition: 03s ease-in-out;
+   padding: 20px;
+}
+
+#navbar li a:hover,
+#navbar li a:active {
+   /* color: #2f3030; */
+   color: blue;
+   font-weight: 500;
+}
+
+#navbarNavDropdown li a {
+   padding: 5px 10px;
+   margin: 2px;
+}
+
+/* #navbarNavDropdown li a:hover, */
+#navbarNavDropdown li a.active {
+   /* color: #2f3030; */
+   color: blue;
+   font-weight: 500;
+}
+
+#navbar li a:hover::after,
+#navbar li a:active::after {
+   content: "";
+   width: 10%;
+   height: 2px;
+   position: absolute;
+   bottom: -4px;
+   left: 20px;
+}
+
+#mobile {
+   color: white;
+
+}
+
+.logo-img {
+   width: 95px;
+   height: 50px;
+}
+
+.toggler_button {
+   outline: none !important;
+   box-shadow: none !important;
+   border: none !important;
+}
+
+.nav-item>button {
+   background-color: rgb(7, 101, 243);
+   color: white;
+   border: none;
+   border-radius: 5px;
+   padding: 5px 10px;
+}
+
+/* .avatar{
+   background-color: blue;
+   border-radius: 50%;
+   height: 2rem;
+   width: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 1rem;
+   font-weight: 500;
+   color: white;
+} */
+.avatar {
+   width: 33px;
+   height: 33px;
+   border-radius: 50%;
+   background: #512DA8;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 15px;
+   color: #fff;
+   /* text-align: center; */
+   /* margin-top: 10px; */
+   /* line-height: 150px; */
+   /* margin: 20px 0; */
+}
