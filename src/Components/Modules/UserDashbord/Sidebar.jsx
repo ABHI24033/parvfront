@@ -113,7 +113,7 @@ const Sidebar = ({ children }) => {
                       >
                         <div className="list-item-hover">
                           <i class="fa-solid fa-user-tie fs-4 me-2"></i>
-                          <span className="fs-5 fw-bold fs-3 text-bold ">Job Forms Deatils</span>
+                          <span className="fs-5 fw-bold fs-3 text-bold ">Job Forms Details</span>
                         </div>
                       </Link>
 

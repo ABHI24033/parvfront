@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css";
-// import { backendUrl } from "../../env";
 import { backendUrl } from "../../../env";
 function Signup() {
   const navigate = useNavigate();
@@ -25,6 +24,7 @@ function Signup() {
     state: "",
     user_type: "Connector",
   });
+  const [progress,setProgress]=useState(0);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -64,10 +64,7 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post(
-        // "http://15.207.195.184:8000/api/v1/register",
-        // "https://us-central1-joyomoney-a8630.cloudfunctions.net/joyMoney/api/v1/register",
-        `${backendUrl}/register`,
+      const response = await axios.post(`${backendUrl}/register`,
         {
           email: formData.email,
           password: formData.password,
@@ -83,12 +80,15 @@ function Signup() {
           district: formData.district,
           state: formData.state,
           user_type: formData.user_type,
+        },{
+          onUploadProgress:({ loaded, total }) => {
+            setProgress(Math.round((loaded * 100) / total));
+        }
         }
       );
-      console.log(response);
 
       if (response) {
-        const data = response.data.message;
+        const data = response?.data?.message;
         alert(data);
         setTimeout(() => {
           navigate("/login");
@@ -363,7 +363,7 @@ function Signup() {
                         style={{ backgroundColor: "#0c0c37" }}
                         className="btn text-white fs-4"
                       >
-                        Signup
+                        {progress?"Signing up":"Signup"}
                       </button>
                       <ToastContainer
                         position="top-right"

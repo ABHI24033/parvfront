@@ -41,15 +41,6 @@ const HomeLoanForm = ({ getID }) => {
         },
     ]);
 
-    // const [dividendArr3, setDividendArr3] = useState([
-    //     {
-    //         co_loan_type: "",
-    //         co_bank_nbfc: "",
-    //         co_emi: "",
-    //         co_pandding: "",
-    //     },
-    // ]);
-
     const [textDisabld, setTextDisabld] = useState(false); // Assuming textDisabld is a state variable
 
     const handleAdd = () => {
@@ -82,17 +73,6 @@ const HomeLoanForm = ({ getID }) => {
             },
         ]);
     };
-    // const handleAdd3 = () => {
-    //     setDividendArr3([
-    //         ...dividendArr3,
-    //         {
-    //             co_loan_type: "",
-    //             co_bank_nbfc: "",
-    //             co_emi: "",
-    //             co_pandding: "",
-    //         },
-    //     ]);
-    // };
 
     const handleInputChange1 = (e, index) => {
         const { name, value } = e.target;
@@ -118,14 +98,6 @@ const HomeLoanForm = ({ getID }) => {
         setDividendArr2(list);
         console.log("Checking",dividendArr2);
     };
-
-    // const handleInputChange4 = (e, index) => {
-    //     const { name, value } = e.target;
-    //     console.log("value", e.target.value);
-    //     const list = [...dividendArr3];
-    //     list[index][name] = value;
-    //     setDividendArr3(list);
-    // };
 
     const handleRemove = (index) => {
         if (dividendArr.length > 0) {
@@ -238,10 +210,6 @@ const HomeLoanForm = ({ getID }) => {
         other2: null,
         other3: null,
         //job details
-        // first_month_salary: null,
-        // second_month_salary: null,
-        // third_month_salary: null,
-
         first_month_salary: null,
         second_month_salary: null,
         third_month_salary: null,
@@ -272,27 +240,14 @@ const HomeLoanForm = ({ getID }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        // setErrors({ ...errors, [name]: null });
-        // Clear errors for the changed field
-        //  console.log(formData);
     };
 
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
-
-        // Ensure the selected file is a PDF file
-        // if (file && file.type === "application/pdf") {
-        // if (file && (file.type === "application/pdf" || file.type === "image/png" || file.type === "image/jpeg")) {
-        // Update the specific field in formData
         setFormData2({
             ...formData2,
             [fieldName]: file,
         });
-        // } else {
-        // Handle the case where the selected file is not a PDF, PNG, or JPG
-        // alert("Please select a PDF, PNG, or JPG file.");
-        // e.target.value = null; // Clear the input field
-        // }
     };
 
 
@@ -308,7 +263,6 @@ const HomeLoanForm = ({ getID }) => {
                 dividendArr,
                 dividendArr1,
                 dividendArr2,
-                // dividendArr3,
                 formData,
                 connector_id: userId,
             };
@@ -341,7 +295,6 @@ const HomeLoanForm = ({ getID }) => {
                 };
 
                 let response = await axios.request(reqOptions);
-                // console.log(response.data);
 
                 if (response) {
                     const response2 = await axios.post(`${backendUrl}/home_loan_uploadFiles/${response.data.id}`,
@@ -351,9 +304,7 @@ const HomeLoanForm = ({ getID }) => {
                                 "Content-Type": "multipart/form-data",
                             },
                             onUploadProgress: ({ loaded, total }) => {
-                                console.log(`current:${loaded}total:${total}`);
                                 setProgress(Math.round((loaded * 100) / total));
-                                // setProgress(``)
                             }
                         },
 

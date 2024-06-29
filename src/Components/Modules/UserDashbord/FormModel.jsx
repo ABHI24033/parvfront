@@ -59,9 +59,7 @@ const FormModel = () => {
             }
 
             const data = await response.json();
-            console.log("gel school form", data.data);
-            // console.log("data");
-            // this is usestate hook
+          
             setSchoolforms(data.data);
             // console.log()
         } catch (error) {

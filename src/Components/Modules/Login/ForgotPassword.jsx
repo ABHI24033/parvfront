@@ -11,15 +11,15 @@ import { PiEyeSlashFill } from "react-icons/pi";
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    // email: "",
-    // otp:"",
     password: "",
     cpassword: "",
-    // user_type: "Connector",
   });
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  console.log(formData, email, otp);
+  const [eye, setEye] = useState(false);
+  const [coneye, setConEye] = useState(false);
+
+  const [inputDisable, setInputDisable] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,77 +29,54 @@ const ForgotPassword = () => {
     }));
   };
 
-  const success = () =>
-    toast.success("Login successfull", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-
-      const response = await axios.post(`${backendUrl}/reset_password`, {
-        email: email,
-        password: formData.password,
-        // user_type: formData.user_type,
-      });
-      console.log("This is login responwe ", response);
-
-      if (response.data.user) {
-        const data = response.data.user;
-        // Store the user ID in localStorage
-        // console.log(data?.user?.user_type, "userType");
-        // localStorage.setItem("userID", data._id);
-        // localStorage.setItem("user_type", data?.user_type);
-        setTimeout(() => {
-          // navigate('/sidebar');
-          // const user_type = localStorage.getItem("user_type");
-          // console.log(user_type,"user_type");
-          if (data?.user_type === "Employee") {
-            navigate('/employee_data');
-          }
-          if (data?.user_type === "Connector") {
-            navigate('/profile');
-          }
-          if (data?.user_type === "Admin") {
-            navigate('/homeservices');
-          }
-          window.location.reload();
-        }, 1500);
-        localStorage.setItem("isLoggedIn", true);
-        success();
-      } else {
-        console.log(response?.data.message);
-        toast.error(response.data.message, "error");
-      }
-    } catch (error) {
-      console.error("Login error:", error.message);
-    }
-  };
-  const [eye, setEye] = useState(false);
-  const [otpId, setOtpId] = useState(false);
-
   const toggleEye = () => {
     setEye(!eye);
+    setConEye(!coneye);
   }
+
   const getOpt = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${backendUrl}/req_otp`, email);
-      console.log(res);
-      setOtpId(res?.data?.storeotp);
       if (res) {
         toast.success("Please Check your gmail for OTP ");
       }
     } catch (error) {
-      console.log("Error :",error);
+      toast.error("Something went wrong !");
+      console.log("Error :", error);
+    }
+  }
+
+  const VerifyOTP = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${backendUrl}/verify_otp`, { otp, email });
+      if (res) {
+        toast.success("Verified");
+        setInputDisable(true);
+      }
+    } catch (error) {
+      toast.error("Something went wrong !");
+      console.log("Error : ", error);
+    }
+  }
+
+  const updatepPassword = async (e) => {
+    e.preventDefault();
+    if (formData?.password !== formData?.cpassword) {
+      toast.warn("Password and Confirm password not matching");
+      return;
+    }
+    try {
+      const res = await axios.patch(`${backendUrl}/updatePassword`, { email, newpassword: formData?.password });
+      console.log(res);
+      if (res) {
+        toast.success("Password Updated Successfully");
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log("Something went wrong", error);
     }
   }
 
@@ -111,28 +88,8 @@ const ForgotPassword = () => {
             <div className=" col-lg-5 offset-lg-2 col-lg-5 col-md-6 col-sm-12 col-12 mx-auto">
               <div className="card card-body border-0 bg-white px-4 login-form">
                 <h3 className="mb-3 text-center">Reset Your Password</h3>
-                {/* <form onSubmit={handleSubmit}> */}
                 <form >
-                  {/* <div className="mb-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                    <p className="mb-1">User Type</p>
-                    <label className="form-label sr-only" htmlFor="userType">
-                      User Type
-                    </label>
-                    <select
-                      id="userType"
-                      name="user_type"
-                      className="form-control mt-1"
-                      value={formData.user_type}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="Admin">Admin</option>
-                      <option value="Employee">Employee</option>
-                      <option value="Connector">Connector</option>
-                    </select>
-                  </div> */}
                   <div className="mb-2 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    {/* <p>User Name</p> */}
                     <p className="mb-1">E-Mail</p>
                     <label className="form-label sr-only" htmlFor="email">
                       E-Mail
@@ -146,6 +103,7 @@ const ForgotPassword = () => {
                       value={formData.email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      disabled={inputDisable === true}
                     />
                     <button className="btn btn-success py-1" onClick={getOpt}>Request for OTP</button>
                   </div>
@@ -162,9 +120,10 @@ const ForgotPassword = () => {
                       className="form-control mt-1 password"
                       value={formData.otp}
                       onChange={(e) => { setOtp(e.target.value) }}
-                    // required
+                      // required
+                      disabled={inputDisable === true}
                     />
-                    <button className="btn btn-primary py-1">Submit OTP</button>
+                    <button className="btn btn-primary py-1" onClick={VerifyOTP}>Submit OTP</button>
                   </div>
                   <div className="mb-2 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 password">
                     <p className=" mb-1"> Password</p>
@@ -180,7 +139,7 @@ const ForgotPassword = () => {
                       value={formData.password}
                       onChange={handleChange}
                       // required
-                      disabled
+                      disabled={inputDisable === false}
                     />
                     <div className="eye_container">
                       {
@@ -203,11 +162,11 @@ const ForgotPassword = () => {
                       value={formData.cpassword}
                       onChange={handleChange}
                       // required
-                      disabled
+                      disabled={inputDisable === false}
                     />
                     <div className="eye_container">
                       {
-                        eye === true ? <PiEyeSlashFill onClick={toggleEye} /> : <IoEyeSharp onClick={toggleEye} />
+                        coneye === true ? <PiEyeSlashFill onClick={toggleEye} /> : <IoEyeSharp onClick={toggleEye} />
                       }
 
                     </div>
@@ -215,10 +174,11 @@ const ForgotPassword = () => {
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 py-4">
                     <div className="d-grid">
                       <button
-                        type="submit"
+                        // type="submit"
                         style={{ backgroundColor: "#0c0c37" }}
-                        className="btn text-white"
-                        disabled
+                        className="btn btn-primary text-white"
+                        disabled={inputDisable === false ? true : false}
+                        onClick={updatepPassword}
                       >
                         Update Password
                       </button>

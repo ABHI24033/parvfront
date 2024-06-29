@@ -2,36 +2,38 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../UserDashbord/Sidebar';
 import { backendUrl } from '../../../env';
 import axios from 'axios';
-import OpenProfileModal from './OpenProfileModal';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const Connectors = () => {
     const [connectors, setConnectors] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 10;
     const fetchConnectors = async () => {
-
         try {
-            const res = await axios.get(`${backendUrl}/getallconnectorUser`);
+            const res = await axios.get(`${backendUrl}/getallconnectorUser?page=${currentPage}&limit=${limit}`);
             const data = res.data;
-            // console.log(data);
+            console.log(data);
             setConnectors(data?.user);
+            setTotalPages(data?.totalPages);
         } catch (error) {
             console.log("Error while fetching connectors", error);
         }
     }
-
     useEffect(() => {
-
         fetchConnectors();
-    }, [])
+    }, [currentPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     const ApproveConnector = async (id) => {
         try {
             const res = await axios.put(`${backendUrl}/update_connector_status/${id}`);
             const data = res.data;
-            // console.log(data);
-            // setConnectors(data?.user);
-            window.location.reload();
+            fetchConnectors();
         } catch (error) {
             console.log("Error while fetching connectors", error);
         }
@@ -40,9 +42,7 @@ const Connectors = () => {
         try {
             const res = await axios.put(`${backendUrl}/reject_connector_status/${id}`);
             const data = res.data;
-            // console.log(data);
-            // setConnectors(data?.user);
-            window.location.reload();
+            fetchConnectors();
         } catch (error) {
             console.log("Error while fetching connectors", error);
         }
@@ -51,11 +51,8 @@ const Connectors = () => {
         try {
             const res = await axios.delete(`${backendUrl}/delete_connector/${id}`);
             const data = res.data;
-            // console.log(data);
-            // setConnectors(data?.user);
             fetchConnectors();
             toast.success("Delete User Successfully");
-            // window.location.reload();
         } catch (error) {
             console.log("Error while fetching connectors", error);
         }
@@ -133,6 +130,21 @@ const Connectors = () => {
                             }
                         </tbody>
                     </table>
+                    <div aria-label="..." className=' d-flex justify-content-center'>
+                        <ul class="pagination">
+                            <li class={`page-item ${currentPage === 1 ? "disabled" : null}`}>
+                                <a class="page-link" href="#" tabindex="-1" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                            </li>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <li class={`page-item ${currentPage === index + 1 ? "active" : null}`} onClick={() => handlePageChange(index + 1)}>
+                                    <a class="page-link" href="#">{index + 1}</a>
+                                </li>
+                            ))}
+                            <li class={`page-item ${currentPage === totalPages ? "disabled" : null}`}>
+                                <a class="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </Sidebar>
         </div>
