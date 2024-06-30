@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../UserDashbord/Sidebar';
 import { backendUrl } from '../../../env';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';

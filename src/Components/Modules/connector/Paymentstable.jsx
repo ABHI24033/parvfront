@@ -65,8 +65,8 @@ const Paymentstable = () => {
                             <tr>
                                 <th>#</th>
                                 <th>Payment Date</th>
-                                <th>Payment Amount</th>
                                 <th>Payment Time</th>
+                                <th>Payment Amount</th>
                                 <th>Application Number</th>
                             </tr>
                         </thead>

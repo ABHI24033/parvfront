@@ -39,7 +39,7 @@ import Termcondation from "./Components/Other/Termcondation";
 import Testmonial from "./Components/Modules/Admin/Testmonial";
 import GalleryImages from "./Components/Modules/Admin/GalleryImages";
 import Sendblog from "./Components/Modules/Admin/Sendblog";
-import BankForm from "./Components/Modules/UserDashbord/BankForm";
+// import BankForm from "./Components/delete/BankForm";
 import ProfileAdmin from "./Components/Modules/Admin/ProfileAdmin";
 
 import { ToastContainer } from "react-toastify";
@@ -55,7 +55,7 @@ import Sidebar from "./Components/Modules/UserDashbord/Sidebar";
 import HomeServices from "./Components/Modules/UserDashbord/HomeServices";
 import FormDetailTable from "./Components/Modules/UserDashbord/FormDetailTable";
 import FormModel from "./Components/Modules/UserDashbord/FormModel";
-import Dashboard from "./Components/Modules/UserDashbord/LoggedUserDashboard/Dashboard";
+// import Dashboard from "./Components/Modules/UserDashbord/LoggedUserDashboard/Dashboard";
 import Connectors from "./Components/Modules/Admin/Connectors";
 import Employess from "./Components/Modules/Admin/Employess";
 import AddEmoloyee from "./Components/Modules/Admin/AddEmoloyee";
@@ -67,7 +67,8 @@ import ContactTable from "./Components/Modules/UserDashbord/ContactTable";
 // import AdminHomeLoanTable from "./Components/Modules/Loans/HomeLoan/AdminHomeLoanTable";
 import UploadGalleryForm from "./Components/Modules/Admin/UploadGalleryForm";
 import LoanCalculator from "./Common/LoanCalculator";
-import CareerTable from "./Components/Modules/UserDashbord/CareerTable";
+// import CareerTable from "../Modules/jobs/CareerTable";
+import CareerTable from "./Components/Modules/Jobs/CareerTable";
 
 import AdminHomeLoanTable from "./Components/Modules/connector/HomeLoanTable";
 // import HomeLoanTable from "./Components/Modules/connector/HomeLoanTable";
@@ -95,6 +96,7 @@ import UploadConnectorDoc from "./Components/Modules/connector/UploadConnectorDo
 import ConnectorProfile from "./Components/Modules/connector/ConnectorProfile";
 import AddPayment from "./Components/Modules/connector/AddPayments";
 import Paymentstable from "./Components/Modules/connector/Paymentstable";
+import UploadDoc from "./Components/Modules/Login/UploadDoc";
 
 function App() {
   console.log("userloggedin" + " = " + localStorage.getItem("userID"))
@@ -112,13 +114,13 @@ function App() {
         <Route path="/blog/:id" element={<BlogDesc />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/homeloan" element={<HomeLoan />} />
-        <Route path="/connector/:endpoint" element={localStorage.getItem("userID") !== null ?<ConnecotrFormDetailedTable />:<Login/>} />
-        <Route path="/emp_rm/:endpoint" element={localStorage.getItem("userID") !== null ?<FormDetailTable />:<Login/>} />
-        <Route path="/emp_rm/work_report" element={localStorage.getItem("userID") !== null ?<DailyWorkReport />:<Login/>} />
+        <Route path="/connector/:endpoint" element={localStorage.getItem("userID") !== null ? <ConnecotrFormDetailedTable /> : <Login />} />
+        <Route path="/emp_rm/:endpoint" element={localStorage.getItem("userID") !== null ? <FormDetailTable /> : <Login />} />
+        <Route path="/emp_rm/work_report" element={localStorage.getItem("userID") !== null ? <DailyWorkReport /> : <Login />} />
         {/* <Route path="/tc/work_report" element={localStorage.getItem("userID") !== null ?<FSWorkReport />:<Login/>} /> */}
-        <Route path="/field_staff/work_report" element={localStorage.getItem("userID") !== null ?<FSWorkReport />:<Login/>} />
-        <Route path="/admin/homeloantable" element={localStorage.getItem("userID") !== null ?<AdminHomeLoanTable />:<Login/>} />
-{/* =========================using firebase authentication==================================== */}
+        <Route path="/field_staff/work_report" element={localStorage.getItem("userID") !== null ? <FSWorkReport /> : <Login />} />
+        <Route path="/admin/homeloantable" element={localStorage.getItem("userID") !== null ? <AdminHomeLoanTable /> : <Login />} />
+        {/* =========================using firebase authentication==================================== */}
         {/* <Route path="/abhi" element={<RegisterConnector />} />
         <Route path="/abhilog" element={<LoginUser />} />
         <Route path="/abhipro" element={<Profile />} /> */}
@@ -133,7 +135,7 @@ function App() {
         <Route path="/career/:id" element={<JobDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/reset-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password" element={<ForgotPassword />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/loan_calculator" element={<LoanCalculator />} />
         <Route path="/Termcondation" element={<Termcondation />} />
@@ -170,9 +172,10 @@ function App() {
         <Route path="/profile/:id" element={localStorage.getItem("userID") !== null ? <ConnectorProfile /> : <Login />} />
         <Route path="/upload_gallery" element={localStorage.getItem("userID") !== null ? <UploadGalleryForm /> : <Login />} />
         <Route path="/upload_conn_doc/:id" element={localStorage.getItem("userID") !== null ? <UploadConnectorDoc /> : <Login />} />
+        <Route path="/upload_user_doc/:id" element={ <UploadDoc /> } />
 
 
-        <Route path="/dashboard/:id" element={localStorage.getItem("userID") !== null ? <Dashboard /> : <Login />} />
+        {/* <Route path="/dashboard/:id" element={localStorage.getItem("userID") !== null ? <Dashboard /> : <Login />} /> */}
         {
           localStorage.getItem("user_type") === "Connector" ?
             <>
@@ -188,7 +191,7 @@ function App() {
 
         <Route path="/formModel/:endpoint/:formid" element={<FormModel></FormModel>} />
 
-       
+
 
 
 

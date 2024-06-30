@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../UserDashbord/Sidebar';
 import { backendUrl } from '../../../env';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const Connectors = () => {
@@ -52,13 +52,14 @@ const Connectors = () => {
             const res = await axios.delete(`${backendUrl}/delete_connector/${id}`);
             const data = res.data;
             fetchConnectors();
-            toast.success("Delete User Successfully");
+            toast.success("User deleted Successfully");
         } catch (error) {
             console.log("Error while fetching connectors", error);
         }
     }
     return (
         <div>
+            <ToastContainer/>
             <Sidebar>
                 <div className="">
                     <h2 className='mx-4'>Connectors List</h2>

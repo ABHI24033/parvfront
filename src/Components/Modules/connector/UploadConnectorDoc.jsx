@@ -54,7 +54,7 @@ const UploadConnectorDoc = () => {
                     newformData.append(fileType, file);
                 }
             });
-            const response2 = await axios.put(`${backendUrl}/upload_connector_doc/${id}`,
+            const response2 = await axios.put(`${backendUrl}/upload_users_doc/${id}`,
                 newformData,
                 {
                     headers: {

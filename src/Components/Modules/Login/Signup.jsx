@@ -89,9 +89,11 @@ function Signup() {
 
       if (response?.status === 201) {
         const data = response?.data?.message;
+        console.log(response?.data);
         toast.success(data);
         setTimeout(() => {
-          navigate("/login");
+          // navigate("/login");
+          navigate(`/upload_user_doc/${response?.data?.userid}`);
         }, 1500);
         localStorage.setItem("isLoggedIn", true);
       } else {
@@ -111,24 +113,7 @@ function Signup() {
                 <h3 className="mb-3 text-center">Signup Here</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="form-inputs">
-                    {/* <div className="mb-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                      <p className="mb-1">User Type</p>
-                      <label className="form-label sr-only" htmlFor="userType">
-                        User Type
-                      </label>
-                      <select
-                        id="userType"
-                        name="user_type"
-                        className="form-control mt-1"
-                        value={formData.user_type}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="Admin">Admin</option>
-                        <option value="Employee">Employee</option>
-                        <option value="Connector">Connector</option>
-                      </select>
-                    </div> */}
+                    
                     <div className="mb-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                       <p className="mb-1">Full Name</p>
                       <label className="form-label sr-only" htmlFor="full_name">
@@ -368,6 +353,7 @@ function Signup() {
                         type="submit"
                         style={{ backgroundColor: "#0c0c37" }}
                         className="btn text-white fs-4"
+                        disabled={progress?true:false}
                       >
                         {progress ? "Signing up" : "Signup"}
                       </button>

@@ -10,12 +10,9 @@ const UploadGalleryForm = () => {
 
     const fetchImages = async () => {
         const response = await axios.get(`${backendUrl}/getAllGalleryImages`);
-        // const data=await response.json();
-        console.log(response);
         setData(response?.data);
     }
     useEffect(() => {
-
         fetchImages();
     }, []);
 
@@ -35,7 +32,6 @@ const UploadGalleryForm = () => {
             const response = await axios.post(`${backendUrl}/upload_gallery_images`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            // console.log('Response:', response.data);
             alert('Images uploaded successfully!');
             fetchImages();
         } catch (error) {
@@ -76,9 +72,7 @@ const UploadGalleryForm = () => {
                     <thead>
                         <tr>
                             <th scope="col">Sr.no</th>
-                            {/* <th scope="col">Image Name</th> */}
                             <th scope="col">Image</th>
-                            {/* <th scope="col">Handle</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -87,8 +81,6 @@ const UploadGalleryForm = () => {
                                 return (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        {/* <td>{item?.originalname}</td> */}
-                                        {/* <td>{item?.url}</td> */}
                                         <td>
                                             <img src={item?.url} alt="" width={100} height={50} />
                                         </td>

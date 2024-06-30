@@ -14,9 +14,7 @@ const Testmonial = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        // "http://15.207.195.184:8000/api/v1/getTestimonials",
-        `${backendUrl}/getTestimonials`,
+      const response = await fetch(`${backendUrl}/getTestimonials`,
         {
           method: "GET",
           headers: {
@@ -46,9 +44,7 @@ const Testmonial = () => {
       setForm({ ...form, isValid: true });
 
       try {
-        const response = await fetch(
-          // "http://15.207.195.184:8000/api/v1/uploadTestimonials",
-          `${backendUrl}/uploadTestimonials`,
+        const response = await fetch(`${backendUrl}/uploadTestimonials`,
           {
             method: "POST",
             headers: {
@@ -63,9 +59,6 @@ const Testmonial = () => {
 
         if (response.ok) {
           alert("Testimonial submitted successfully!");
-
-          console.log("Testimonial submitted successfully!");
-
           // TODO: Handle form submission, e.g., send data to a server
           console.log("Name:", form.name);
           console.log("Testimonial:", form.testimonial);
@@ -88,9 +81,7 @@ const Testmonial = () => {
   };
   const handleDelete = async (imageId) => {
     try {
-      await axios.delete(
-        // `http://15.207.195.184:8000/api/v1/deleteTestimonial/${imageId}`
-        `${backendUrl}/deleteTestimonial/${imageId}`
+      await axios.delete(`${backendUrl}/deleteTestimonial/${imageId}`
       );
       setTestimonialData(
         testimonialData.filter((image) => image._id !== imageId)
@@ -134,12 +125,6 @@ const Testmonial = () => {
               Submit Testimonial
             </button>
           </form>
-
-          {/* {form.isValid && (
-            <p className="success-message">
-              Testimonial submitted successfully!
-            </p>
-          )} */}
 
           {!form.isValid && (
             <p className="error-message">

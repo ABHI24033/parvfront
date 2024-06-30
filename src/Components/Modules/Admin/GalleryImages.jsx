@@ -35,10 +35,7 @@ const GalleryImages = () => {
       }
 
       try {
-        const response = await axios.post(
-          // "http://15.207.195.184:8000/api/v1/uploadImage",
-        // "https://us-central1-joyomoney-a8630.cloudfunctions.net/joyMoney/api/v1/uploadImage",
-        `${backendUrl}/uploadImage`,
+        const response = await axios.post(`${backendUrl}/uploadImage`,
           {
             file: selectedImage,
             body
@@ -67,11 +64,7 @@ const GalleryImages = () => {
 
   const fetchImages = async () => {
     try {
-      const response = await axios.get(
-        // "http://15.207.195.184:8000/api/v1/getImages"
-        // "https://us-central1-joyomoney-a8630.cloudfunctions.net/joyMoney/api/v1/getImages"
-        `${backendUrl}/getImages`
-      );
+      const response = await axios.get(`${backendUrl}/getImages`);
       if (response) {
         setImages(response.data.images);
       }
