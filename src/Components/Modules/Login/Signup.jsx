@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css";
 import { backendUrl } from "../../../env";
+import { IoEyeSharp } from "react-icons/io5";
+import { PiEyeSlashFill } from "react-icons/pi";
 function Signup() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -24,7 +26,7 @@ function Signup() {
     state: "",
     user_type: "Connector",
   });
-  const [progress,setProgress]=useState(0);
+  const [progress, setProgress] = useState(0);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,17 +34,12 @@ function Signup() {
       [name]: value,
     }));
   };
-  const success = () =>
-    toast.success("Sign up successfully", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+  const [eye, setEye] = useState(false);
+
+  const toggleEye = () => {
+    setEye(!eye);
+  }
+
   const unsuccess = () =>
     toast.error("Something went wrong,please try again", {
       position: "top-right",
@@ -80,21 +77,23 @@ function Signup() {
           district: formData.district,
           state: formData.state,
           user_type: formData.user_type,
-        },{
-          onUploadProgress:({ loaded, total }) => {
-            setProgress(Math.round((loaded * 100) / total));
+        }, {
+        onUploadProgress: ({ loaded, total }) => {
+          setProgress(Math.round((loaded * 100) / total));
         }
-        }
-      );
-
-      if (response) {
+      });
+      if (response?.status === 200) {
         const data = response?.data?.message;
-        alert(data);
+        toast.error(data);
+      }
+
+      if (response?.status === 201) {
+        const data = response?.data?.message;
+        toast.success(data);
         setTimeout(() => {
           navigate("/login");
         }, 1500);
         localStorage.setItem("isLoggedIn", true);
-        success();
       } else {
         unsuccess();
       }
@@ -162,7 +161,7 @@ function Signup() {
                         required
                       />
                     </div>
-                    <div className="mb-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div className="mb-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 relative password">
                       <p className=" mb-1"> Password</p>
                       <label className="form-label sr-only" htmlFor="password">
                         Password
@@ -170,13 +169,20 @@ function Signup() {
                       <input
                         id="password"
                         name="password"
-                        type="password"
+                        // type="password"
+                        type={`${eye ? "text" : "password"}`}
                         placeholder="Password"
                         className="form-control mt-1"
                         value={formData.password}
                         onChange={handleChange}
                         required
                       />
+                      <div className="eye_container">
+                        {
+                          eye === true ? <PiEyeSlashFill onClick={toggleEye} /> : <IoEyeSharp onClick={toggleEye} />
+                        }
+
+                      </div>
                     </div>
                     <div className="mb-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                       <p className="mb-1">Mobile Number</p>
@@ -363,7 +369,7 @@ function Signup() {
                         style={{ backgroundColor: "#0c0c37" }}
                         className="btn text-white fs-4"
                       >
-                        {progress?"Signing up":"Signup"}
+                        {progress ? "Signing up" : "Signup"}
                       </button>
                       <ToastContainer
                         position="top-right"

@@ -46,10 +46,6 @@ const Login = () => {
     }
 
     try {
-      // const response = await axios.post("http://15.207.195.184:3000/auth/login", {
-      // const response = await axios.post("http://15.207.195.184:8000/api/v1/login", {
-      // console.log("Hi");
-      // const response = await axios.post("https://us-central1-joyomoney-a8630.cloudfunctions.net/joyMoney/api/v1/login", {
       const response = await axios.post(`${backendUrl}/login`, {
         email: formData.email,
         password: formData.password,
@@ -59,14 +55,9 @@ const Login = () => {
 
       if (response.data.user) {
         const data = response.data.user;
-        // Store the user ID in localStorage
-        console.log(data?.user?.user_type, "userType");
         localStorage.setItem("userID", data._id);
         localStorage.setItem("user_type", data?.user_type);
         setTimeout(() => {
-          // navigate('/sidebar');
-          // const user_type = localStorage.getItem("user_type");
-          // console.log(user_type,"user_type");
           if (data?.user_type === "Employee-1") {
             navigate('/profile');
           }
