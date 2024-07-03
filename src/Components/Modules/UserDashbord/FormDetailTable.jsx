@@ -5,23 +5,25 @@ import { backendUrl } from '../../../env';
 import FormDetailsModal from '../FormDeatils/FormDeatilsModal';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-// import AutoLoanModal from '../Admin/FormDeatils/AutoLoanModal';
-// import OpenProfileModal from '../Admin/OpenProfileModal';
 import ConnectorViewModal from '../connector/ConnectorViewModal';
 
 const FormDetailTable = () => {
     const [data, setData] = useState();
     const [heading, setHeading] = useState();
     const [statusEndPoint, setStatusEndPoint] = useState();
-    // const [reject, setReject] = useState();
     const [deleteEndPoint, setdeleteEndPoint] = useState();
     const [status, setStatus] = useState();
-    // console.log(status);
 
     const param = useParams();
     const { endpoint } = param;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 10;
 
-    // console.log(endpoint);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
     useEffect(() => {
         getData();
         if (endpoint === "getallhomeloan") {
@@ -51,16 +53,12 @@ const FormDetailTable = () => {
             setStatusEndPoint("change_business_status");
             setdeleteEndPoint("deletebusinessloan")
         }
-    }, [endpoint])
+    }, [endpoint,currentPage])
 
-    const HandleStatusChange = (e) => {
-
-    }
 
     const getData = async () => {
         try {
-            // const userID = localStorage.getItem("userID");
-            const response = await fetch(`${backendUrl}${endpoint}`,
+            const response = await fetch(`${backendUrl}${endpoint}?page=${currentPage}&limit=${limit}`,
                 {
                     method: "GET",
                     headers: {
@@ -72,24 +70,19 @@ const FormDetailTable = () => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-
             const data = await response.json();
-            // console.log(data);
             setData(data.data);
+            setTotalPages(data?.totalPages);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     }
 
     const LoanStatus = async (id) => {
-        // console.log("Working", id);
         try {
             const res = await axios.put(`${backendUrl}/${statusEndPoint}/${id}`, { status: status });
             const data = res.data;
-            // console.log(data);
             toast.success("Status Updated");
-            // setConnectors(data?.user);
-            // window.location.reload();
             getData();
         } catch (error) {
             console.log("Error while fetching connectors", error);
@@ -98,7 +91,6 @@ const FormDetailTable = () => {
 
 
     const deleteLoanform = async (id) => {
-        // window?.confirm("Do you really want to delete ?");
         try {
             const result = window.confirm("Are you sure to delete this item?");
             if (result) {
@@ -108,8 +100,6 @@ const FormDetailTable = () => {
                     getData();
                 }
             }
-            // const res=await axios.delete(`${backendUrl}/deletecarloan/${id}`);
-            // window.location.reload();
         } catch (error) {
             console.log("error while deleteing ", error);
         }
@@ -119,16 +109,8 @@ const FormDetailTable = () => {
     const [id, setid] = useState();
     const handleStatus = async (e, id) => {
         const { name, value } = e.target;
-        // setStatus({ ...status, [name]: value });
         setStatus(value);
         setid(id);
-        // formid=id;
-        // if(status){
-        // await LoanStatus(id);
-        console.log("Hello");
-        // }
-        // setErrors({ ...errors, [name]: null });
-        // Clear errors for the changed field
     };
     useEffect(() => {
         if (id) {
@@ -143,7 +125,6 @@ const FormDetailTable = () => {
             <ToastContainer />
             <Sidebar>
                 <div className="container w-100">
-                    {/* <h2 className='mx-4'>Professional loan forms </h2> */}
                     <h2 className='mx-4 '>{heading}</h2>
                     <table className="table  mt-5 overflow-scroll border " >
                         <thead>
@@ -153,7 +134,6 @@ const FormDetailTable = () => {
                                 <th>Remark</th>
                                 <th>Connector's Profile</th>
                                 <th>Status</th>
-                                {/* <th>Timestamp</th> */}
                                 <th>Applicant's Profile</th>
                                 <th>Add Remarks</th>
                             </tr>
@@ -161,13 +141,14 @@ const FormDetailTable = () => {
                         <tbody>
 
                             {
-                                data && data.map((item, index) => (
+                                data && data.map((item) => (
                                     <tr key={item?._id} >
                                         <td>{item?.application_no}</td>
                                         <td >{item?.applicant_kyc?.fname} {item?.applicant_kyc?.mname} {item?.applicant_kyc?.lname}</td>
                                         <td >{item?.remarks}</td>
                                         <td>
-                                            <ConnectorViewModal data={item?.connector_id} />
+                                            {/* <ConnectorViewModal data={item?.connector_id} /> */}
+                                            <Link to={`/profile/${item?.connector_id}`} className='btn btn-primary px-2 py-1'><i class="fa-solid fa-address-card"></i></Link>
                                         </td>
                                         <td className='d-flex gap-3'>
 
@@ -176,17 +157,19 @@ const FormDetailTable = () => {
                                                     id={`status`}
                                                     name="status"
                                                     className="form-select py-1 px-1"
-                                                    style={{ width: "10rem" }}
-                                                    //    value={status}
+                                                    style={{ width: "12rem" }}
                                                     onChange={(e) => { handleStatus(e, item?._id) }}
                                                 >
-                                                    <option value="Received" selected={item?.loan_status === "Received" ? true : false}>
-                                                        Received
+                                                    <option value="Received" selected={item?.loan_status === "Application Received" ? true : false}>
+                                                        Application Received
                                                     </option>
-                                                    <option value="Pending" selected={item?.loan_status === "Pending" ? true : false}>Pending</option>
-                                                    <option value="InProgress" selected={item?.loan_status === "InProgress" ? true : false}>In Progress</option>
-                                                    <option value="Approved" selected={item?.loan_status === "Approved" ? true : false}>Approved</option>
-                                                    <option value="Reject" selected={item?.loan_status === "Reject" ? true : false}>Reject</option>
+                                                    <option value="InProgress at PARV" selected={item?.loan_status === "InProgress at PARV" ? true : false}>InProgress at PARV</option>
+                                                    <option value="Applied To Bank" selected={item?.loan_status === "Applied To Bank" ? true : false}>Applied To Bank</option>
+                                                    <option value="Pendency" selected={item?.loan_status === "Pendency" ? true : false}>Pendency</option>
+                                                    <option value="Sanctioned" selected={item?.loan_status === "Sanctioned" ? true : false}>Sanctioned</option>
+                                                    <option value="Sanctioned" selected={item?.loan_status === "Sanctioned" ? true : false}>Sanctioned</option>
+                                                    <option value="Disbursed" selected={item?.loan_status === "Disbursed" ? true : false}>Disbursed</option>
+                                                    <option value="Rejected" selected={item?.loan_status === "Rejected" ? true : false}>Rejected</option>
                                                 </select>
                                             }
 
@@ -213,6 +196,21 @@ const FormDetailTable = () => {
                             }
                         </tbody>
                     </table>
+                    <div aria-label="..." className=' d-flex justify-content-center'>
+                        <ul class="pagination">
+                            <li class={`page-item ${currentPage === 1 ? "disabled" : null}`}>
+                                <a class="page-link" href="#" tabindex="-1" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                            </li>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <li class={`page-item ${currentPage === index + 1 ? "active" : null}`} onClick={() => handlePageChange(index + 1)}>
+                                    <a class="page-link" href="#">{index + 1}</a>
+                                </li>
+                            ))}
+                            <li class={`page-item ${currentPage === totalPages ? "disabled" : null}`}>
+                                <a class="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
 

@@ -11,7 +11,7 @@ const FormDetailsModal = ({ data }) => {
     // console.log(data);
     return (
         <div>
-            <button onClick={toggleModal} className='btn btn-primary px-2 py-1 w-100'>View user</button>
+            <button onClick={toggleModal} className='btn btn-primary px-2 py-1 '>View user</button>
             {showModal && (
                 <div className="modal bd-example-modal-lg" tabIndex="-1" role="dialog" style={{ display: 'block', width: "100%" }}>
                     <div className="modal-dialog modal-lg" role="document">
