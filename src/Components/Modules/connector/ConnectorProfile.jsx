@@ -26,9 +26,9 @@ function ConnectorProfile() {
     // const deleteDocuments=()=>{
     //     window.confirm("Do You Really want to delete ")
     //     try {
-            
+
     //     } catch (error) {
-            
+
     //     }
     // }
 
@@ -74,7 +74,7 @@ function ConnectorProfile() {
                                                             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                                                 <p class="mb-0">{item?.fieldName}</p>
                                                                 {/* <p> */}
-                                                                    {/* <i class="fa-solid fa-xmark" title="Delete Documents"></i> */}
+                                                                {/* <i class="fa-solid fa-xmark" title="Delete Documents"></i> */}
                                                                 {/* </p> */}
                                                             </li>
                                                         </Link>
@@ -99,15 +99,20 @@ function ConnectorProfile() {
                                             </div>
                                         </div>
                                         <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Password</p>
+                                        {
+                                            localStorage.getItem("user_type") === "Admin" &&
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Password</p>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <p class="text-muted mb-0">{userinfo.user?.password}</p>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9">
-                                                <p class="text-muted mb-0">{userinfo.user?.password}</p>
-                                            </div>
-                                        </div>
-                                        <hr />
+                                            // <hr />
+                                        }
+
+                                        
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <p class="mb-0">Mobile Number</p>

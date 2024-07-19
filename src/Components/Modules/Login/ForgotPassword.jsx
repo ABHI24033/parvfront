@@ -37,13 +37,14 @@ const ForgotPassword = () => {
   const getOpt = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${backendUrl}/req_otp`, email);
-      if (res) {
-        toast.success("Please Check your gmail for OTP ");
+      const res = await axios.post(`${backendUrl}/req_otp`, {email});
+      console.log(res);
+      if (res?.status===200) {
+        toast.success(res?.data?.message);
       }
     } catch (error) {
-      toast.error("Something went wrong !");
-      console.log("Error :", error);
+      toast.error(error?.response?.data?.message);
+      console.log("Error :", error?.message);
     }
   }
 
@@ -56,7 +57,8 @@ const ForgotPassword = () => {
         setInputDisable(true);
       }
     } catch (error) {
-      toast.error("Something went wrong !");
+      // toast.error("Something went wrong !");
+      toast.error(error?.response?.data?.message);
       console.log("Error : ", error);
     }
   }

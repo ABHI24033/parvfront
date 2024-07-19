@@ -14,6 +14,8 @@ const FormDetailTable = () => {
     const [deleteEndPoint, setdeleteEndPoint] = useState();
     const [status, setStatus] = useState();
 
+    const userType = localStorage.getItem("user_type");
+
     const param = useParams();
     const { endpoint } = param;
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +55,7 @@ const FormDetailTable = () => {
             setStatusEndPoint("change_business_status");
             setdeleteEndPoint("deletebusinessloan")
         }
-    }, [endpoint,currentPage])
+    }, [endpoint, currentPage])
 
 
     const getData = async () => {
@@ -182,14 +184,17 @@ const FormDetailTable = () => {
                                             <Link to={`/remark/${endpoint}/${item?._id}`} className='btn btn-primary px-2 py-1'>Remarks</Link>
                                         </td>
 
-                                        <td className='d-flex'>
-                                            <button className=' btn btn-danger px-2 py-1' onClick={() => { deleteLoanform(item?._id) }} title='Delete'>
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                            <button className=' btn btn-success mx-1 px-2 py-1' title='Edit'>
-                                                <Link to={`/${endpoint}/${item?._id}`}><i class="fa-solid fa-pen-to-square text-white"></i></Link>
-                                            </button>
-                                        </td>
+                                        {
+                                            userType === "Admin" &&
+                                            <td className='d-flex'>
+                                                <button className=' btn btn-danger px-2 py-1' onClick={() => { deleteLoanform(item?._id) }} title='Delete'>
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                                <button className=' btn btn-success mx-1 px-2 py-1' title='Edit'>
+                                                    <Link to={`/${endpoint}/${item?._id}`}><i class="fa-solid fa-pen-to-square text-white"></i></Link>
+                                                </button>
+                                            </td>
+                                        }
 
                                     </tr>
                                 ))

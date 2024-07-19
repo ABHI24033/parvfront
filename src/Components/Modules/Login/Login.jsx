@@ -168,7 +168,7 @@ const Login = () => {
                       >
                         Login
                       </button>
-                      <Link to={'/reset-password'} className=" fs-6 text-end mt-2">Forget Password</Link>
+                      <Link to={'/reset-password'} className=" fs-6 text-end mt-2">Forgot Password </Link>
                       <ToastContainer
                         position="top-right"
                         autoClose={5000}
