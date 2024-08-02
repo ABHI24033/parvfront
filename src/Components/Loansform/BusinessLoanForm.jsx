@@ -208,6 +208,7 @@ const BusinessLoanForm = ({ getID }) => {
         business_registration: null,
         itr1: null,
         itr2: null,
+        bank_statement:null,
         other1: null,
         other2: null,
         other3: null,
@@ -1454,7 +1455,7 @@ const BusinessLoanForm = ({ getID }) => {
                                             <input
                                                 id="co_date_of_birth"
                                                 name="co_date_of_birth"
-                                                type="text"
+                                                type="date"
                                                 value={formData.co_date_of_birth}
                                                 onChange={handleInputChange}
                                                 placeholder="Date of Birth"
@@ -1839,6 +1840,34 @@ const BusinessLoanForm = ({ getID }) => {
                                             {formData2?.itr2 && (
                                                 <p>
                                                     Selected File: {formData2.itr2.name}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                                        <div className="mb-3">
+                                            <h6 className="text-center">
+                                                Bank Statement
+                                            </h6>
+                                            <label
+                                                className="sr-only form-label mb-0"
+                                                htmlFor="text"
+                                            ></label>
+                                            <input
+                                                id="bank_statement"
+                                                name="bank_statement"
+                                                type="file"
+                                                multiple
+                                                onChange={(e) =>
+                                                    handleFileChange(e, "bank_statement")
+                                                }
+                                                // placeholder="bank_statement."
+                                                className="form-control"
+                                            />
+
+                                            {formData2?.bank_statement && (
+                                                <p>
+                                                    Selected File: {formData2.bank_statement.name}
                                                 </p>
                                             )}
                                         </div>

@@ -13,7 +13,8 @@ const UploadDoc = () => {
         adhar_back: null,
         pancard: null,
         applicant_photo: null,
-        address_proof: null,
+        bank_details: null,
+        office_pic:null,
 
         other1: null,
         other2: null,
@@ -57,7 +58,7 @@ const UploadDoc = () => {
             if (response2) {
                 toast.success("Uploaded Successfully");
                 setTimeout(() => {
-                    navigate("/connectors");
+                    navigate("/login");
                 }, 3000);
             } else {
                 setProgress(0);
@@ -158,7 +159,7 @@ const UploadDoc = () => {
                 <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                     <div className="mb-3">
                         <h6 className="text-center">
-                            Applicant Selfie
+                            Applicant Photo
                         </h6>
                         <label
                             className="sr-only form-label mb-0"
@@ -185,29 +186,56 @@ const UploadDoc = () => {
                 <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                     <div className="mb-3">
                         <h6 className="text-center">
-                            Present Address Proof ( Electricity Bill )
+                            Bank Details
                         </h6>
                         <label
                             className="sr-only form-label mb-0"
                             htmlFor="text"
                         ></label>
                         <input
-                            id="address_proof"
-                            name="address_proof"
+                            id="bank_details"
+                            name="bank_details"
                             type="file"
                             onChange={(e) =>
-                                handleFileChange(e, "address_proof")
+                                handleFileChange(e, "bank_details")
                             }
                             className="form-control"
                         />
 
-                        {formData2.address_proof && (
+                        {formData2.bank_details && (
                             <p>
-                                Selected File: {formData2.address_proof.name}
+                                Selected File: {formData2.bank_details.name}
                             </p>
                         )}
                     </div>
                 </div>
+                <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="mb-3">
+                        <h6 className="text-center">
+                            Office Picture
+                        </h6>
+                        <label
+                            className="sr-only form-label mb-0"
+                            htmlFor="text"
+                        ></label>
+                        <input
+                            id="office_pic"
+                            name="office_pic"
+                            type="file"
+                            onChange={(e) =>
+                                handleFileChange(e, "office_pic")
+                            }
+                            className="form-control"
+                        />
+
+                        {formData2.office_pic && (
+                            <p>
+                                Selected File: {formData2.office_pic.name}
+                            </p>
+                        )}
+                    </div>
+                </div>
+
                 <div>
                     <button
                         className='btn btn-primary'

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../UserDashbord/Sidebar";
 import { backendUrl } from "../../../env";
 import axios from "axios";
+import { Link } from "react-router-dom";
 // import { auth, db } from "../../Authentication/Firebase";
 function ProfileAdmin() {
   const [userinfo, SetUSerinfo] = useState([]);
+  console.log(userinfo);
 
   const id = localStorage.getItem("userID");
   // console.log(id);
@@ -71,6 +73,15 @@ function ProfileAdmin() {
                       </li>
                     </ul>
                   </div>
+                </div>
+                <div>
+                  <h3>Documents</h3>
+                  {
+                    // console.log(userinfo)
+                    userinfo?.user && userinfo?.user.files.map((item,index)=>(
+                      <Link to={item?.url} className="btn btn-primary m-2">{item?.fieldName}</Link>
+                    ))
+                  }
                 </div>
               </div>
               <div class="col-lg-8">

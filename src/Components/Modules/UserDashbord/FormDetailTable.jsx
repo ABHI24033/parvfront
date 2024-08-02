@@ -162,7 +162,7 @@ const FormDetailTable = () => {
                                                     style={{ width: "12rem" }}
                                                     onChange={(e) => { handleStatus(e, item?._id) }}
                                                 >
-                                                    <option value="Received" selected={item?.loan_status === "Application Received" ? true : false}>
+                                                    <option value="Received" selected={item?.loan_status === "Received" ? true : false}>
                                                         Application Received
                                                     </option>
                                                     <option value="InProgress at PARV" selected={item?.loan_status === "InProgress at PARV" ? true : false}>InProgress at PARV</option>
