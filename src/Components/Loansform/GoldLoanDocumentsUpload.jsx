@@ -1,50 +1,46 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { backendUrl } from '../../../env';
+import { backendUrl } from '../../env';
 
-const UploadDoc = () => {
-    let newformData = new FormData();
+const GoldLoanDocumentsUpload = () => {
+
+    const [progress, setProgress] = useState();
+    const { formId } = useParams();
     const navigate = useNavigate();
-    const { id } = useParams();
+    const newformData=new FormData();
     const [formData2, setFormData2] = useState({
         adhar_front: null,
         adhar_back: null,
         pancard: null,
         applicant_photo: null,
-        bank_details: null,
-        office_pic:null,
-
-        other1: null,
-        other2: null,
-        other3: null,
-
+        address_proof: null,
     });
-
-
-    const [progress, setProgress] = useState(0);
 
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
-        setFormData2({
-            ...formData2,
-            [fieldName]: file,
-        });
+        if (file && (file.type === "application/pdf" || file.type === "image/png" || file.type === "image/jpeg")) {
+            setFormData2({
+                ...formData2,
+                [fieldName]: file,
+            });
+        } else {
+            alert("Please select a PDF, PNG, or JPG file.");
+            e.target.value = null;
+        }
     };
 
-
-    const handleClick = async (e) => {
-        e.preventDefault();
+    const handleClick = async () => {
+        Object.keys(formData2).forEach((fileType) => {
+            const file = formData2[fileType];
+            if (file) {
+                newformData.append(fileType, file);
+            }
+        });
         try {
-
-            Object.keys(formData2).forEach((fileType) => {
-                const file = formData2[fileType];
-                if (file) {
-                    newformData.append(fileType, file);
-                }
-            });
-            const response2 = await axios.put(`${backendUrl}/upload_users_doc/${id}`,
+            const response2 = await axios.post(
+                `${backendUrl}/gold_loanFiles/${formId}`,
                 newformData,
                 {
                     headers: {
@@ -56,28 +52,24 @@ const UploadDoc = () => {
                 },
             );
             if (response2) {
-                toast.success("Uploaded Successfully");
+                toast.success(response2?.data?.message);
                 setTimeout(() => {
-                    navigate("/login");
+                    navigate("/")
                 }, 3000);
-            } else {
-                setProgress(0);
-                console.error("Error sending data to the backend");
             }
         } catch (error) {
             toast.error(error?.message);
-            setProgress(0);
-            console.error("Error:", error);
+            console.log("Error when try to upload files", error);
         }
     }
+
     return (
-        // <Sidebar>
-        <div className='container mt-6 pt-6 my-6'>
-            <ToastContainer/>
-            <Link to="/login" className='btn btn-primary my-5 py-2'>Go to Login</Link>
-            <h3>Documents Upload </h3>
-            <h5>Upload some necessary Documents</h5>
-            <div className="row my-4">
+        <div className='container my-16 py-5 mx-auto'>
+            <ToastContainer />
+            <h3 className='text-center text-danger' style={{ fontSize: '2rem' }}>Upload Documents </h3>
+
+            <div className="row">
+                <h4>KYC Documents : </h4>
                 <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                     <div className="mb-3">
                         <h6 className="text-center">
@@ -94,6 +86,7 @@ const UploadDoc = () => {
                             onChange={(e) =>
                                 handleFileChange(e, "adhar_front")
                             }
+                            // placeholder="bank_statement."
                             className="form-control"
                         />
 
@@ -121,8 +114,10 @@ const UploadDoc = () => {
                             onChange={(e) =>
                                 handleFileChange(e, "adhar_back")
                             }
+                            // placeholder="bank_statement."
                             className="form-control"
                         />
+
                         {formData2.adhar_back && (
                             <p>
                                 Selected File: {formData2.adhar_back.name}
@@ -147,8 +142,10 @@ const UploadDoc = () => {
                             onChange={(e) =>
                                 handleFileChange(e, "pancard")
                             }
+                            // placeholder="bank_statement."
                             className="form-control"
                         />
+
 
                         {formData2.pancard && (
                             <p>
@@ -158,10 +155,10 @@ const UploadDoc = () => {
                     </div>
                 </div>
 
-                {/* <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                     <div className="mb-3">
                         <h6 className="text-center">
-                            Applicant Photo
+                            Applicant Selfie
                         </h6>
                         <label
                             className="sr-only form-label mb-0"
@@ -174,6 +171,7 @@ const UploadDoc = () => {
                             onChange={(e) =>
                                 handleFileChange(e, "applicant_photo")
                             }
+                            // placeholder="bank_statement."
                             className="form-control"
                         />
 
@@ -183,127 +181,47 @@ const UploadDoc = () => {
                             </p>
                         )}
                     </div>
-                </div> */}
+                </div>
 
                 <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                     <div className="mb-3">
                         <h6 className="text-center">
-                            Bank Details
+                            Present Address Proof ( Electricity Bill )
                         </h6>
                         <label
                             className="sr-only form-label mb-0"
                             htmlFor="text"
                         ></label>
                         <input
-                            id="bank_details"
-                            name="bank_details"
+                            id="address_proof"
+                            name="address_proof"
                             type="file"
                             onChange={(e) =>
-                                handleFileChange(e, "bank_details")
+                                handleFileChange(e, "address_proof")
                             }
+                            // placeholder="bank_statement."
                             className="form-control"
                         />
 
-                        {formData2.bank_details && (
+                        {formData2.address_proof && (
                             <p>
-                                Selected File: {formData2.bank_details.name}
+                                Selected File: {formData2.address_proof.name}
                             </p>
                         )}
                     </div>
-                </div>
-                <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
-                    <div className="mb-3">
-                        <h6 className="text-center">
-                            Salary Slip
-                        </h6>
-                        <label
-                            className="sr-only form-label mb-0"
-                            htmlFor="text"
-                        ></label>
-                        <input
-                            id="salary_slip"
-                            name="salary_slip"
-                            type="file"
-                            onChange={(e) =>
-                                handleFileChange(e, "salary_slip")
-                            }
-                            className="form-control"
-                        />
-
-                        {formData2.salary_slip && (
-                            <p>
-                                Selected File: {formData2.salary_slip.name}
-                            </p>
-                        )}
-                    </div>
-                </div>
-                <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
-                    <div className="mb-3">
-                        <h6 className="text-center">
-                           Other-1
-                        </h6>
-                        <label
-                            className="sr-only form-label mb-0"
-                            htmlFor="text"
-                        ></label>
-                        <input
-                            id="other_1"
-                            name="other_1"
-                            type="file"
-                            onChange={(e) =>
-                                handleFileChange(e, "other_1")
-                            }
-                            className="form-control"
-                        />
-
-                        {formData2.other_1 && (
-                            <p>
-                                Selected File: {formData2.other_1.name}
-                            </p>
-                        )}
-                    </div>
-                </div>
-                <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
-                    <div className="mb-3">
-                        <h6 className="text-center">
-                            Other-2
-                        </h6>
-                        <label
-                            className="sr-only form-label mb-0"
-                            htmlFor="text"
-                        ></label>
-                        <input
-                            id="other_2"
-                            name="other_2"
-                            type="file"
-                            onChange={(e) =>
-                                handleFileChange(e, "other_2")
-                            }
-                            className="form-control"
-                        />
-
-                        {formData2.salary_slip && (
-                            <p>
-                                Selected File: {formData2.salary_slip.name}
-                            </p>
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <button
-                        className='btn btn-primary'
-                        disabled={progress ? true : false}
-                        onClick={handleClick}
-                    >
-                        {progress ? "Uploading" : "Upload"}
-                    </button>
                 </div>
             </div>
-        </div>
-        // </Sidebar>
 
+            <button
+                type='button'
+                className='btn btn-primary'
+                disabled={progress ? true : false}
+                onClick={handleClick}
+            >
+                {progress ? "Uploading" : "Upload"}
+            </button>
+        </div>
     );
 }
 
-export default UploadDoc;
+export default GoldLoanDocumentsUpload;

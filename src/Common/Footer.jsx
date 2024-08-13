@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaInstagramSquare } from "react-icons/fa";
 import {
   faFacebook,
   faGoogle,
@@ -320,32 +321,33 @@ const Footer = () => {
                 <div className="mb-3">
                   {/* widget footer */}
                   <ul className="list-unstyled text-muted social-icons">
-                    <li className="d-flex">
-                      <a href="#!">
+                    <li className="d-flex my-1">
+                      <a href="https://www.facebook.com/people/PARV-Financial-Services/100068266544064/" target="_blank">
                         <FontAwesomeIcon
                           icon={faFacebook}
-                          className="me-2 fs-5"
+                          className="me-2 fs-3"
                         />
                         Facebook
                       </a>
                     </li>
-                    <li className="d-flex">
-                      <a href="#!">
-                        <FontAwesomeIcon icon={faGoogle} className="me-2 fs-5" />
-                        Google
+                    <li className="d-flex my-1">
+                      <a href="https://www.instagram.com/poonam.rai.587606/?next=%2F&hl=en">
+                        {/* <FontAwesomeIcon icon={faGoogle} className="me-2 fs-5" /> */}
+                        <FaInstagramSquare className="me-2 fs-3" />
+                        Instagram
                       </a>
                     </li>
-                    <li className="d-flex">
-                      <a href="#!">
-                        <FontAwesomeIcon icon={faTwitter} className="me-2 fs-5" />
+                    <li className="d-flex my-1">
+                      <a href="https://x.com/Parvfinancial">
+                        <FontAwesomeIcon icon={faTwitter} className="me-2 fs-3" />
                         Twitter
                       </a>
                     </li>
-                    <li className="d-flex">
-                      <a href="#!">
+                    <li className="d-flex my-1">
+                      <a href="https://www.linkedin.com/company/102043283/admin/feed/posts/">
                         <FontAwesomeIcon
                           icon={faLinkedin}
-                          className="me-2 fs-5"
+                          className="me-2 fs-3"
                         />
                         LinkedIn
                       </a>

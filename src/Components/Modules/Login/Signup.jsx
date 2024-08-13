@@ -89,7 +89,7 @@ function Signup() {
 
       if (response?.status === 201) {
         const data = response?.data?.message;
-        console.log(response?.data);
+        // console.log(response?.data);
         toast.success(data);
         setTimeout(() => {
           // navigate("/login");
@@ -100,7 +100,8 @@ function Signup() {
         unsuccess();
       }
     } catch (error) {
-      console.error("Login error:", error.message);
+      toast.error(error?.response?.data?.message);
+      console.error("Signup error:", error);
     }
   };
   return (

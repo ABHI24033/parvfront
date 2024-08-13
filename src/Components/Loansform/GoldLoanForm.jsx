@@ -5,6 +5,8 @@ import * as yup from 'yup';
 import { useLocation, useNavigate } from "react-router-dom"
 import { backendUrl } from "../../env";
 import { GoldLoanValidation } from "./FormValidation";
+import { toast, ToastContainer } from "react-toastify";
+import { Toast } from "bootstrap/dist/js/bootstrap.min";
 
 const GoldLoanForm = () => {
     let newformData = new FormData();
@@ -148,19 +150,14 @@ const GoldLoanForm = () => {
 
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
-
-        // Ensure the selected file is a PDF file
-        // if (file && file.type === "application/pdf") {
         if (file && (file.type === "application/pdf" || file.type === "image/png" || file.type === "image/jpeg")) {
-            // Update the specific field in formData
             setFormData2({
                 ...formData2,
                 [fieldName]: file,
             });
         } else {
-            // Handle the case where the selected file is not a PDF, PNG, or JPG
             alert("Please select a PDF, PNG, or JPG file.");
-            e.target.value = null; // Clear the input field
+            e.target.value = null;
         }
     };
 
@@ -176,21 +173,11 @@ const GoldLoanForm = () => {
             const object = {
                 dividendArr,
                 dividendArr1,
-                // dividendArr2,
-                // dividendArr3,
                 formData,
-                loan_check:formData?.loan_check,
+                loan_check: formData?.loan_check,
                 connector_id: userId,
             };
-            console.log(object);
 
-            // Validate the form
-            // if (!validateForm()) {
-            //   // If form validation fails, do not submit
-            //   return;
-            // }
-
-            // Append all files to the formData
             Object.keys(formData2).forEach((fileType) => {
                 const file = formData2[fileType];
                 if (file) {
@@ -207,48 +194,55 @@ const GoldLoanForm = () => {
                 let bodyContent = JSON.stringify(object);
 
                 let reqOptions = {
-                    // url: "http://15.207.195.184:8000/api/v1/personalLoanForm",
                     url: `${backendUrl}/gold_loan_form`,
                     method: "POST",
                     headers: headersList,
                     data: bodyContent,
+                    onUploadProgress: ({ loaded, total }) => {
+                        // console.log(`current:${loaded}total:${total} percentage${Math.round((loaded / total) * 100)} %`);
+                        setProgress(Math.round((loaded * 100) / total));
+                    }
                 };
 
                 let response = await axios.request(reqOptions);
-                console.log(response.data);
-
                 if (response) {
-                    // Handle success
-                    console.log(response.data.id);
-                    const response2 = await axios.post(
-                        // `http://15.207.195.184:8000/api/v1/personalformUploadfiles/${response.data.id}`,
-                        `${backendUrl}/gold_loanFiles/${response.data.id}`,
-                        newformData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                            onUploadProgress: ({ loaded, total }) => {
-                                console.log(`current:${loaded}total:${total} percentage${Math.round((loaded / total) * 100)} %`);
-                                setProgress(Math.round((loaded * 100) / total));
-                            }
-                        },
-
-                    );
-
-                    if (response2) {
-                        alert(response2.data.message);
-                        // getID(response2.data.id);
-                        navigate("/");
-                        setProgress(0);
-                    } else {
-                        console.error("Error sending data to the backend");
-                    }
-                } else {
-                    // Handle error
-                    console.error("Error sending data to the backend");
+                    toast.success(response?.data?.message);
+                    setTimeout(() => {
+                        navigate(`/goldloan/doc/${response?.data?.id}`);
+                    })
                 }
+
+                // if (response) {
+
+                //     const response2 = await axios.post(
+                //         `${backendUrl}/gold_loanFiles/${response.data.id}`,
+                //         newformData,
+                //         {
+                //             headers: {
+                //                 "Content-Type": "multipart/form-data",
+                //             },
+                //             onUploadProgress: ({ loaded, total }) => {
+                //                 console.log(`current:${loaded}total:${total} percentage${Math.round((loaded / total) * 100)} %`);
+                //                 setProgress(Math.round((loaded * 100) / total));
+                //             }
+                //         },
+
+                //     );
+
+                //     if (response2) {
+                //         alert(response2.data.message);
+                //         navigate("/");
+                //         setProgress(0);
+                //     }
+                //      else {
+                //         console.error("Error sending data to the backend");
+                //     }
+                // } else {
+                //     // Handle error
+                //     console.error("Error sending data to the backend");
+                // }
             } catch (error) {
+                toast.error(error?.message);
                 console.log("Error sending data to the backend");
             }
         }
@@ -265,6 +259,7 @@ const GoldLoanForm = () => {
 
     return (
         <div>
+            <ToastContainer />
             {/* Applicant KYC section */}
             <section className="">
                 <div className="container">
@@ -876,22 +871,22 @@ const GoldLoanForm = () => {
                                                             <option value="" disabled selected>
                                                                 Types of Account
                                                             </option>
-                                                            <option value="home">
+                                                            <option value="Current Account">
                                                                 Current Account
                                                             </option>
-                                                            <option value="student">
+                                                            <option value="Saving Account">
                                                                 Saving Account
                                                             </option>
-                                                            <option value="personal">
+                                                            <option value="Salary Account">
                                                                 Salary Account
                                                             </option>
-                                                            <option value="Car">
+                                                            <option value="Fixed Deposit Account">
                                                                 Fixed Deposit Account
                                                             </option>
-                                                            <option value="Education">
+                                                            <option value="NRI Account">
                                                                 NRI Account
                                                             </option>
-                                                            <option value="Gold">
+                                                            <option value="DEMAT Account">
                                                                 DEMAT Account
                                                             </option>
                                                         </select>
@@ -1059,8 +1054,8 @@ const GoldLoanForm = () => {
                                     {/* Loan History Section End  */}
 
 
-                                    <h3>Documents Upload </h3>
-                                    <h4>KYC Documents : </h4>
+                                    {/* <h3>Documents Upload </h3> */}
+                                    {/* <h4>KYC Documents : </h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
                                             <h6 className="text-center">
@@ -1216,7 +1211,7 @@ const GoldLoanForm = () => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-12">
                                         <button
@@ -1225,7 +1220,7 @@ const GoldLoanForm = () => {
                                             disabled={progress ? true : false}
                                             className="btn btn-primary mb-4"
                                         >
-                                            {progress ? `Uploading ${progress}%` : "Submit"}
+                                            {progress ? "Submitting" : "Submit"}
                                         </button>
                                     </div>
 

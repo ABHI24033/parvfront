@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Sidebar from '../UserDashbord/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { backendUrl } from '../../../env';
 
 const UploadConnectorDoc = () => {
     let newformData = new FormData();
     const navigate = useNavigate();
-    const {id}=useParams();
+    const { id } = useParams();
     const [formData2, setFormData2] = useState({
         adhar_front: null,
         adhar_back: null,
@@ -75,6 +75,7 @@ const UploadConnectorDoc = () => {
                 console.error("Error sending data to the backend");
             }
         } catch (error) {
+            toast.error(error?.message);
             setProgress(0);
             console.error("Error:", error);
         }
@@ -82,10 +83,11 @@ const UploadConnectorDoc = () => {
     return (
         <Sidebar>
             <div className='container'>
+                <ToastContainer/>
                 <h3>Documents Upload </h3>
                 <h4>KYC Documents : </h4>
                 <div className="row">
-                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
                         <div className="mb-3">
                             <h6 className="text-center">
                                 Aadhaar Front Photo
@@ -112,7 +114,7 @@ const UploadConnectorDoc = () => {
                         </div>
                     </div>
 
-                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
                         <div className="mb-3">
                             <h6 className="text-center">
                                 Aadhaar Back Photo
@@ -138,7 +140,7 @@ const UploadConnectorDoc = () => {
                         </div>
                     </div>
 
-                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
                         <div className="mb-3">
                             <h6 className="text-center">
                                 Pan Card
@@ -165,10 +167,10 @@ const UploadConnectorDoc = () => {
                         </div>
                     </div>
 
-                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
                         <div className="mb-3">
                             <h6 className="text-center">
-                                Applicant Selfie
+                                Formal Picture
                             </h6>
                             <label
                                 className="sr-only form-label mb-0"
@@ -191,33 +193,118 @@ const UploadConnectorDoc = () => {
                             )}
                         </div>
                     </div>
-
-                    <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
                         <div className="mb-3">
                             <h6 className="text-center">
-                                Present Address Proof ( Electricity Bill )
+                                Office Picture
                             </h6>
                             <label
                                 className="sr-only form-label mb-0"
                                 htmlFor="text"
                             ></label>
                             <input
-                                id="address_proof"
-                                name="address_proof"
+                                id="office_photo"
+                                name="office_photo"
                                 type="file"
                                 onChange={(e) =>
-                                    handleFileChange(e, "address_proof")
+                                    handleFileChange(e, "office_photo")
                                 }
                                 className="form-control"
                             />
 
-                            {formData2.address_proof && (
+                            {formData2.office_photo && (
                                 <p>
-                                    Selected File: {formData2.address_proof.name}
+                                    Selected File: {formData2.office_photo.name}
                                 </p>
                             )}
                         </div>
                     </div>
+
+                    <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
+                        <div className="mb-3">
+                            <h6 className="text-center">
+                                Bank Details
+                            </h6>
+                            <label
+                                className="sr-only form-label mb-0"
+                                htmlFor="text"
+                            ></label>
+                            <input
+                                id="bank_details"
+                                name="bank_details"
+                                type="file"
+                                onChange={(e) =>
+                                    handleFileChange(e, "bank_details")
+                                }
+                                className="form-control"
+                            />
+
+                            {formData2.bank_details && (
+                                <p>
+                                    Selected File: {formData2.bank_details.name}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+
+                    {
+                        localStorage.getItem("user_type") === "Admin" &&
+                        <>
+                            <h4 className='text-danger'>Upload Id & Certificate</h4>
+                            <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
+                                <div className="mb-3">
+                                    <h6 className="text-center">
+                                    Authorization certificate 
+                                    </h6>
+                                    <label
+                                        className="sr-only form-label mb-0"
+                                        htmlFor="text"
+                                    ></label>
+                                    <input
+                                        id="auth_certificate"
+                                        name="auth_certificate"
+                                        type="file"
+                                        onChange={(e) =>
+                                            handleFileChange(e, "auth_certificate")
+                                        }
+                                        className="form-control"
+                                    />
+
+                                    {formData2.auth_certificate && (
+                                        <p>
+                                            Selected File: {formData2.auth_certificate.name}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="col-xl-4 col-lg-2 col-md-12 col-sm-12 col-12">
+                                <div className="mb-3">
+                                    <h6 className="text-center">
+                                        Id Card
+                                    </h6>
+                                    <label
+                                        className="sr-only form-label mb-0"
+                                        htmlFor="text"
+                                    ></label>
+                                    <input
+                                        id="id_card"
+                                        name="id_card"
+                                        type="file"
+                                        onChange={(e) =>
+                                            handleFileChange(e, "id_card")
+                                        }
+                                        className="form-control"
+                                    />
+
+                                    {formData2.id_card && (
+                                        <p>
+                                            Selected File: {formData2.id_card.name}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    }
                     <div>
                         <button
                             className='btn btn-primary'

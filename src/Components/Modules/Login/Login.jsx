@@ -51,7 +51,7 @@ const Login = () => {
         password: formData.password,
         user_type: formData.user_type,
       });
-      console.log("This is login responwe ", response);
+      // console.log("This is login responwe ", response);
 
       if (response.data.user) {
         const data = response.data.user;
@@ -82,7 +82,8 @@ const Login = () => {
         toast.error(response.data.message, "error");
       }
     } catch (error) {
-      console.error("Login error:", error.message);
+      toast.error(error?.response?.data?.message);
+      console.error("Login error:", error);
     }
   };
   const [eye, setEye] = useState(false);

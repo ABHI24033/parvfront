@@ -72,7 +72,7 @@ const Employess = () => {
                                             <OpenProfileModal data={item} />
                                             <button className='btn btn-danger px-3 py-1' onClick={() => deleteEmployee(item?._id)}>Delete</button>
                                             {
-                                                item?.user_type === "Employee-2" &&
+                                                // item?.user_type === "Employee-2" &&
                                                 <>
                                                     <EmployeeModel id={item?._id} />
                                                     {/* <Link to={'/employee_data'} className='btn btn-primary mx-1 px-2 py-1'>Show Data</Link> */}

@@ -68,7 +68,7 @@ const LoanCalculator = () => {
               />
             </div>
             <div className="form-group">
-              <label>Loan Term (years):</label>
+              <label>Loan Term (months):</label>
               <input
                 type="number"
                 className="form-control"

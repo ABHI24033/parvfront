@@ -97,6 +97,12 @@ import ConnectorProfile from "./Components/Modules/connector/ConnectorProfile";
 import AddPayment from "./Components/Modules/connector/AddPayments";
 import Paymentstable from "./Components/Modules/connector/Paymentstable";
 import UploadDoc from "./Components/Modules/Login/UploadDoc";
+import BusinessLoanForm from "./Components/Loansform/BusinessLoanForm";
+import BusinessLoanDocUpload from "./Components/Loansform/BusinessLoanDocUpload";
+import PersonalLoanDocumentsUpload from "./Components/Loansform/PersonalLoanDocumentsUpload";
+import HomeLoanDocumentsUpload from "./Components/Loansform/HomeLoanDocumentsUpload";
+import VehicleLoanDocumentUpload from "./Components/Loansform/VehicleLoanDocumentUpload";
+import GoldLoanDocumentsUpload from "./Components/Loansform/GoldLoanDocumentsUpload";
 
 function App() {
   console.log("userloggedin" + " = " + localStorage.getItem("userID"))
@@ -113,7 +119,6 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogDesc />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/homeloan" element={<HomeLoan />} />
         <Route path="/connector/:endpoint" element={localStorage.getItem("userID") !== null ? <ConnecotrFormDetailedTable /> : <Login />} />
         <Route path="/emp_rm/:endpoint" element={localStorage.getItem("userID") !== null ? <FormDetailTable /> : <Login />} />
         <Route path="/emp_rm/work_report" element={localStorage.getItem("userID") !== null ? <DailyWorkReport /> : <Login />} />
@@ -127,10 +132,18 @@ function App() {
         {/* ========================================================= */}
         <Route path="/workReport/:endPoint" element={<WRTable />} />
 
+
+        <Route path="/homeloan" element={<HomeLoan />} />
+        <Route path="/homeloan/doc/:formId" element={<HomeLoanDocumentsUpload />} />
         <Route path="/businessloan" element={<BusinessLoan />} />
+        <Route path="/businessloan/business-doc/:formId" element={<BusinessLoanDocUpload />} />
         <Route path="/carloan" element={<CarLoan />} />
+        <Route path="/vehicleloan/doc/:formId" element={<VehicleLoanDocumentUpload />} />
         <Route path="/personalloan" element={<PersonalLoan />} />
+        <Route path="/personalloan/doc/:formId" element={<PersonalLoanDocumentsUpload />} />
         <Route path="/goldloan1" element={<GoldLoan1 />} />
+        <Route path="/goldloan/doc/:formId" element={<GoldLoanDocumentsUpload />} />
+
         <Route path="/career" element={<Career />} />
         <Route path="/career/:id" element={<JobDetails />} />
         <Route path="/login" element={<Login />} />

@@ -84,7 +84,6 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          // "http://15.207.195.184:8000/api/v1/getNotification",
           `${backendUrl}/getNotification`,
           {
             method: "GET",
@@ -107,7 +106,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures the effect runs once on mount
+  }, []); 
   useEffect(() => {
     fetchData();
   }, [])
@@ -116,7 +115,6 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        // "http://15.207.195.184:8000/api/v1/getImages",
         `${backendUrl}/getImages`,
         {
           method: "GET",
@@ -128,9 +126,7 @@ const Home = () => {
       }
 
       const data = await response.json();
-      // setApiData(data.notifications);
       setSliderImages(data.images);
-      // console.log("slider image API Data:", data?.images);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -139,7 +135,6 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          // "http://15.207.195.184:8000/api/v1/getTestimonials",
           `${backendUrl}/getTestimonials`,
           {
             method: "GET",

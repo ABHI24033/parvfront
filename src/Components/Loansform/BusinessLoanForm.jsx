@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import * as yup from 'yup';
 import { backendUrl } from "../../env";
 import { BusinessLoanValidation } from "./FormValidation";
+import { toast } from "react-toastify";
 
 const BusinessLoanForm = ({ getID }) => {
     let newformData = new FormData();
@@ -33,24 +34,6 @@ const BusinessLoanForm = ({ getID }) => {
         },
     ]);
 
-    // const [dividendArr2, setDividendArr2] = useState([
-    //     {
-    //         co_bank_name: "",
-    //         co_account_type: "",
-    //         co_branch_name: "",
-    //     },
-    // ]);
-
-    // const [dividendArr3, setDividendArr3] = useState([
-    //     {
-    //         co_loan_type: "",
-    //         co_bank_nbfc: "",
-    //         co_emi: "",
-    //         co_pandding: "",
-    //     },
-    // ]);
-
-    const [textDisabld, setTextDisabld] = useState(false); // Assuming textDisabld is a state variable
 
     const handleAdd = () => {
         setDividendArr([
@@ -73,28 +56,7 @@ const BusinessLoanForm = ({ getID }) => {
             },
         ]);
     };
-    // const handleAdd2 = () => {
-    //     setDividendArr2([
-    //         ...dividendArr2,
-    //         {
-    //             co_bank_name: "",
-    //             co_account_type: "",
-    //             co_branch_name: "",
-    //         },
-    //     ]);
-    // };
-    // const handleAdd3 = () => {
-    //     setDividendArr3([
-    //         ...dividendArr3,
-    //         {
-    //             co_loan_type: "",
-    //             co_bank_nbfc: "",
-    //             co_emi: "",
-    //             co_pandding: "",
-    //         },
-    //     ]);
-    // };
-
+   
     const handleInputChange1 = (e, index) => {
         const { name, value } = e.target;
         console.log("value", e.target.value);
@@ -111,21 +73,7 @@ const BusinessLoanForm = ({ getID }) => {
         setDividendArr1(list);
     };
 
-    // const handleInputChange3 = (e, index) => {
-    //     const { name, value } = e.target;
-    //     console.log("value", e.target.value);
-    //     const list = [...dividendArr2];
-    //     list[index][name] = value;
-    //     setDividendArr2(list);
-    // };
-
-    // const handleInputChange4 = (e, index) => {
-    //     const { name, value } = e.target;
-    //     console.log("value", e.target.value);
-    //     const list = [...dividendArr3];
-    //     list[index][name] = value;
-    //     setDividendArr3(list);
-    // };
+   
 
     const handleRemove = (index) => {
         if (dividendArr.length > 0) {
@@ -241,20 +189,10 @@ const BusinessLoanForm = ({ getID }) => {
 
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
-
-        // Ensure the selected file is a PDF file
-        // if (file && file.type === "application/pdf") {
-        // if (file && (file.type === "application/pdf" || file.type === "image/png" || file.type === "image/jpeg")) {
-            // Update the specific field in formData
             setFormData2({
                 ...formData2,
                 [fieldName]: file,
             });
-        // } else {
-            // Handle the case where the selected file is not a PDF, PNG, or JPG
-            // alert("Please select a PDF, PNG, or JPG file.");
-            // e.target.value = null; // Clear the input field
-        // }
     };
 
 
@@ -273,15 +211,7 @@ const BusinessLoanForm = ({ getID }) => {
                 formData,
                 connector_id: userId,
             };
-            console.log(object);
-    
-            // Validate the form
-            // if (!validateForm()) {
-            //   // If form validation fails, do not submit
-            //   return;
-            // }
-    
-            // Append all files to the formData
+
             Object.keys(formData2).forEach((fileType) => {
                 const file = formData2[fileType];
                 if (file) {
@@ -298,53 +228,59 @@ const BusinessLoanForm = ({ getID }) => {
                 let bodyContent = JSON.stringify(object);
     
                 let reqOptions = {
-                    // url: "http://15.207.195.184:8000/api/v1/personalLoanForm",
                     url: `${backendUrl}/businessLoanForm`,
                     method: "POST",
                     headers: headersList,
                     data: bodyContent,
                     onUploadProgress: function (progressEvent) {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        console.log(`Upload Progress: ${percentCompleted}%`);
+                        // console.log(`Upload Progress: ${percentCompleted}%`);
+                        setProgress(percentCompleted);
                     }
                 };
     
                 let response = await axios.request(reqOptions);
-                console.log(response.data);
+                if(response){
+                    toast.success("Form Submitted")
+                    navigate(`/businessloan/business-doc/${response.data.id}`);
+                }
+                // console.log(response.data);
                 // alert("form uploaded");
     
-                if (response) {
-                    // Handle success
-                    // console.log(response.data.id);
-                    const response2 = await axios.post(
-                        // `http://15.207.195.184:8000/api/v1/personalformUploadfiles/${response.data.id}`,
-                        `${backendUrl}/businessformUploadfiles/${response.data.id}`,
-                        newformData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                            onUploadProgress: ({ loaded, total }) => {
-                                console.log(`current:${loaded}total:${total}`);
-                                setProgress(Math.round((loaded * 100) / total));
-                                // setProgress(``)
-                            }
-                        },
+                // if (response) {
+                //     // Handle success
+                //     // console.log(response.data.id);
+                //     const response2 = await axios.post(
+                //         // `http://15.207.195.184:8000/api/v1/personalformUploadfiles/${response.data.id}`,
+                //         `${backendUrl}/businessformUploadfiles/${response.data.id}`,
+                //         newformData,
+                //         {
+                //             headers: {
+                //                 "Content-Type": "multipart/form-data",
+                //             },
+                //             onUploadProgress: ({ loaded, total }) => {
+                //                 console.log(`current:${loaded}total:${total}`);
+                //                 setProgress(Math.round((loaded * 100) / total));
+                //                 // setProgress(``)
+                //             }
+                //         },
     
-                    );
+                //     );
     
-                    if (response2) {
-                        alert(response2.data.message);
-                        // getID(response2.data.id);
-                        navigate("/");
-                    } else {
-                        console.error("Error sending data to the backend");
-                    }
-                } else {
-                    // Handle error
-                    console.error("Error sending data to the backend");
-                }
+                //     if (response2) {
+                //         alert(response2.data.message);
+                //         // getID(response2.data.id);
+                //         navigate("/");
+                //     } else {
+                //         console.error("Error sending data to the backend");
+                //     }
+                // } else {
+                //     // Handle error
+                //     console.error("Error sending data to the backend");
+                // }
             } catch (error) {
+                console.log(error);
+                
                 console.error("Error:", error);
             }
         } catch (error) {
@@ -521,7 +457,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`gender`}
-                                                disabled={textDisabld}
                                                 name="gender"
                                                 className="form-select"
                                                 value={formData.gender}
@@ -544,7 +479,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`marital_status`}
-                                                disabled={textDisabld}
                                                 name="marital_status"
                                                 className="form-select"
                                                 value={formData.marital_status}
@@ -943,7 +877,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                             id={`bank_name ${index}`}
                                                             name="bank_name"
                                                             type="text"
-                                                            disabled={textDisabld}
                                                             value={item.bank_name}
                                                             onChange={(e) =>
                                                                 handleInputChange1(e, index)
@@ -966,7 +899,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                             // id="account_type"
                                                             name="account_type"
                                                             className="form-select"
-                                                            disabled={textDisabld}
                                                             value={item.account_type}
                                                             onChange={(e) =>
                                                                 handleInputChange1(e, index)
@@ -976,22 +908,22 @@ const BusinessLoanForm = ({ getID }) => {
                                                             <option value="" disabled selected>
                                                                 Types of Account
                                                             </option>
-                                                            <option value="home">
+                                                            <option value="Current Account">
                                                                 Current Account
                                                             </option>
-                                                            <option value="student">
+                                                            <option value="Saving Account">
                                                                 Saving Account
                                                             </option>
-                                                            <option value="personal">
+                                                            <option value="Salary Account">
                                                                 Salary Account
                                                             </option>
-                                                            <option value="Car">
+                                                            <option value="Fixed Deposit Account">
                                                                 Fixed Deposit Account
                                                             </option>
-                                                            <option value="Education">
+                                                            <option value="NRI Account">
                                                                 NRI Account
                                                             </option>
-                                                            <option value="Gold">
+                                                            <option value="DEMAT Account">
                                                                 DEMAT Account
                                                             </option>
                                                         </select>
@@ -1012,7 +944,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`loan_purpose`}
-                                                disabled={textDisabld}
                                                 name="loan_purpose"
                                                 className="form-select"
                                                 value={formData.loan_purpose}
@@ -1073,7 +1004,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`registration_documents`}
-                                                disabled={textDisabld}
                                                 name="registration_documents"
                                                 className="form-select"
                                                 value={formData.registration_documents}
@@ -1096,7 +1026,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`business_turnover`}
-                                                disabled={textDisabld}
                                                 name="business_turnover"
                                                 className="form-select"
                                                 value={formData.business_turnover}
@@ -1194,7 +1123,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`property_location`}
-                                                        disabled={textDisabld}
                                                         name="property_location"
                                                         className="form-select"
                                                         value={formData.property_location}
@@ -1219,7 +1147,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`property_owner`}
-                                                        disabled={textDisabld}
                                                         name="property_owner"
                                                         className="form-select"
                                                         value={formData.property_owner}
@@ -1247,7 +1174,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`property_documents`}
-                                                        disabled={textDisabld}
                                                         name="property_documents"
                                                         className="form-select"
                                                         value={formData.property_documents}
@@ -1344,7 +1270,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                                     id={`loan_bank_name ${index}`}
                                                                     name="loan_bank_name"
                                                                     type="text"
-                                                                    disabled={textDisabld}
                                                                     value={item.loan_bank_name}
                                                                     onChange={(e) =>
                                                                         handleInputChange2(e, index)
@@ -1363,7 +1288,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                                     id={`Total_loan_amount ${index}`}
                                                                     name="Total_loan_amount"
                                                                     type="text"
-                                                                    disabled={textDisabld}
                                                                     value={item.Total_loan_amount}
                                                                     onChange={(e) => handleInputChange2(e, index)}
                                                                     placeholder="Total Loan Amount"
@@ -1382,7 +1306,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                                 </label>
                                                                 <input
                                                                     id={`emi ${index}`}
-                                                                    disabled={textDisabld}
                                                                     name="emi"
                                                                     type="text"
                                                                     value={item.emi}
@@ -1404,7 +1327,6 @@ const BusinessLoanForm = ({ getID }) => {
                                                                 </label>
                                                                 <input
                                                                     id={`pending ${index}`}
-                                                                    disabled={textDisabld}
                                                                     name="pending"
                                                                     type="text"
                                                                     value={item.pending}
@@ -1471,7 +1393,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`occupation`}
-                                                disabled={textDisabld}
                                                 name="occupation"
                                                 className="form-select"
                                                 value={formData.occupation}
@@ -1494,7 +1415,6 @@ const BusinessLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`co_relation`}
-                                                disabled={textDisabld}
                                                 name="co_relation"
                                                 className="form-select"
                                                 value={formData.co_relation}
@@ -1517,7 +1437,7 @@ const BusinessLoanForm = ({ getID }) => {
 
 
 
-                                    <h3>Documents Upload </h3>
+                                    {/* <h3>Documents Upload </h3>
                                     <h4>KYC Documents : </h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
@@ -2337,7 +2257,7 @@ const BusinessLoanForm = ({ getID }) => {
                                             </div>
                                         </div>
 
-                                    }
+                                    } */}
 
 
 

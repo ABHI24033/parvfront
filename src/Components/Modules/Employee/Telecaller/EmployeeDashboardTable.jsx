@@ -39,7 +39,7 @@ const EmployeeDashboardTable = () => {
             const data = await response.json();
             // console.log(userID);
             const filterdata = data?.filter((item) => item?.employee_id == userID);
-            console.log(filterdata);
+            // console.log(filterdata);
             setData(filterdata);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -102,7 +102,7 @@ const EmployeeDashboardTable = () => {
                             return (
                                 <p key={index} className='mx-4'>
                                     <span style={{fontWeight:700}}>Google sheet Link :</span> 
-                                    <a href={item?.sheeet_url} target='_blanks'>Open Google Sheet</a>
+                                    <a href={item?.sheeet_url} target='_blanks'>{index}. Open Google Sheet</a>
                                 </p>
                             )
                         })

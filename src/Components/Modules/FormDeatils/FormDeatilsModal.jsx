@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { SlBookOpen } from "react-icons/sl";
+import { GiOpenBook } from "react-icons/gi";
+import { IoIosPaper } from "react-icons/io";
 // import { backendUrl } from '../../../env';
 
 const FormDetailsModal = ({ data }) => {
@@ -11,7 +14,10 @@ const FormDetailsModal = ({ data }) => {
     // console.log(data);
     return (
         <div>
-            <button onClick={toggleModal} className='btn btn-primary px-2 py-1 '>View user</button>
+            {/* <button onClick={toggleModal} className='btn btn-primary px-2 py-1 '>View user</button> */}
+            <button onClick={toggleModal} className='btn btn-primary px-2 py-1 ' title='Open Form Details'>
+                <IoIosPaper style={{fontSize:"19px"}}/>
+            </button>
             {showModal && (
                 <div className="modal bd-example-modal-lg" tabIndex="-1" role="dialog" style={{ display: 'block', width: "100%" }}>
                     <div className="modal-dialog modal-lg" role="document">

@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 // import { backendUrl } from "../../../env";
 import { backendUrl } from "../../env";
 import { PersoanlLoanValidation } from "./FormValidation";
+import { toast } from "react-toastify";
 
 const PersonalLoanForm = ({ getID }) => {
     let newformData = new FormData();
@@ -19,10 +20,7 @@ const PersonalLoanForm = ({ getID }) => {
         if (location.state) {
             setParamvalue(location.state.param);
         }
-
-        // Now paramValue contains the value passed through state
     }, [location.state, paramvalue]);
-    // const [selectedLanguage, setSelectedLanguage] = useState("");
 
     const [dividendArr, setDividendArr] = useState([
         {
@@ -250,47 +248,54 @@ const PersonalLoanForm = ({ getID }) => {
                 let bodyContent = JSON.stringify(object);
 
                 let reqOptions = {
-                    // url: "http://15.207.195.184:8000/api/v1/personalLoanForm",
                     url: `${backendUrl}/personalLoanForm`,
                     method: "POST",
                     headers: headersList,
                     data: bodyContent,
+                    onUploadProgress: function (progressEvent) {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log(`Upload Progress: ${percentCompleted}%`);
+                        setProgress(percentCompleted);
+                    }
                 };
 
                 let response = await axios.request(reqOptions);
-                console.log(response.data);
-
-                if (response) {
-                    // Handle success
-                    console.log(response.data.id);
-                    const response2 = await axios.post(
-                        // `http://15.207.195.184:8000/api/v1/personalformUploadfiles/${response.data.id}`,
-                        `${backendUrl}/personalformUploadfiles/${response.data.id}`,
-                        newformData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                            onUploadProgress: ({ loaded, total }) => {
-                                console.log(`current:${loaded}total:${total} percentage${Math.round((loaded / total) * 100)} %`);
-                                setProgress(Math.round((loaded * 100) / total));
-                            }
-                        },
-
-                    );
-
-                    if (response2) {
-                        alert(response2.data.message);
-                        // getID(response2.data.id);
-                        navigate("/");
-                        setProgress(0);
-                    } else {
-                        console.error("Error sending data to the backend");
-                    }
-                } else {
-                    // Handle error
-                    console.error("Error sending data to the backend");
+                // console.log(response.data);
+                if(response){
+                    toast.success(response.data.message);
+                    navigate(`/personalloan/doc/${response?.data?.id}`);
                 }
+
+                // if (response) {
+                //     // Handle success
+                //     console.log(response.data.id);
+                //     const response2 = await axios.post(
+                //         `${backendUrl}/personalformUploadfiles/${response.data.id}`,
+                //         newformData,
+                //         {
+                //             headers: {
+                //                 "Content-Type": "multipart/form-data",
+                //             },
+                //             onUploadProgress: ({ loaded, total }) => {
+                //                 console.log(`current:${loaded}total:${total} percentage${Math.round((loaded / total) * 100)} %`);
+                //                 setProgress(Math.round((loaded * 100) / total));
+                //             }
+                //         },
+
+                //     );
+
+                //     if (response2) {
+                //         alert(response2.data.message);
+                //         // getID(response2.data.id);
+                //         navigate("/");
+                //         setProgress(0);
+                //     } else {
+                    //     console.error("Error sending data to the backend");
+                    // }
+                // } else {
+                //     // Handle error
+                //     console.error("Error sending data to the backend");
+                // }
             } catch (error) {
                 console.log("Error sending data to the backend");
             }
@@ -337,7 +342,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.fname && <p className="text-danger fs-6">{errors?.fname}</p>
+                                                errors?.fname && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.fname}</p>
                                             }
                                         </div>
                                     </div>
@@ -357,7 +362,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.mname && <p className="text-danger fs-6">{errors?.mname}</p>
+                                                errors?.mname && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.mname}</p>
                                             }
                                         </div>
                                     </div>
@@ -377,7 +382,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.lname && <p className="text-danger fs-6">{errors?.lname}</p>
+                                                errors?.lname && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.lname}</p>
                                             }
                                         </div>
                                     </div>
@@ -398,7 +403,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.email && <p className="text-danger fs-6">{errors?.email}</p>
+                                                errors?.email && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.email}</p>
                                             }
                                         </div>
                                     </div>
@@ -418,7 +423,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.phone && <p className="text-danger fs-6">{errors?.phone}</p>
+                                                errors?.phone && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.phone}</p>
                                             }
                                         </div>
                                     </div>
@@ -438,7 +443,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.alternate_number && <p className="text-danger fs-6">{errors?.alternate_number}</p>
+                                                errors?.alternate_number && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.alternate_number}</p>
                                             }
                                         </div>
                                     </div>
@@ -458,7 +463,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 className="form-control"
                                             />
                                             {
-                                                errors?.dob && <p className=" text-danger fs-6">{errors?.dob}</p>
+                                                errors?.dob && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.dob}</p>
                                             }
                                         </div>
                                     </div>
@@ -481,7 +486,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 <option value="other">Other</option>
                                             </select>
                                             {
-                                                errors?.gender && <p className=" text-danger fs-6">{errors?.gender}</p>
+                                                errors?.gender && <p className=" text-danger fs-6" style={{marginTop:"-0.2rem"}}>{errors?.gender}</p>
                                             }
                                         </div>
                                     </div>
@@ -503,7 +508,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 <option value="married">Married</option>
                                             </select>
                                             {
-                                                errors?.marital_status && <p className=" text-danger fs-6">{errors?.marital_status}</p>
+                                                errors?.marital_status && <p className=" text-danger fs-6" style={{marginTop:"-0.2rem"}}>{errors?.marital_status}</p>
                                             }
                                         </div>
                                     </div>
@@ -544,7 +549,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.father_name && <p className=" text-danger fs-6">{errors?.father_name}</p>
+                                            errors?.father_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.father_name}</p>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -563,7 +568,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.mother_name && <p className=" text-danger fs-6">{errors?.mother_name}</p>
+                                            errors?.mother_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.mother_name}</p>
                                         }
                                     </div>
 
@@ -585,7 +590,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.house_name && <p className=" text-danger fs-6">{errors?.house_name}</p>
+                                            errors?.house_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.house_name}</p>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -604,7 +609,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.street_name && <p className=" text-danger fs-6">{errors?.street_name}</p>
+                                            errors?.street_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.street_name}</p>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -623,7 +628,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.city_name && <p className=" text-danger fs-6">{errors?.city_name}</p>
+                                            errors?.city_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.city_name}</p>
                                         }
                                     </div>
 
@@ -643,7 +648,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.landmark && <p className=" text-danger fs-6">{errors?.landmark}</p>
+                                            errors?.landmark && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.landmark}</p>
                                         }
                                     </div>
 
@@ -663,7 +668,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.district && <p className=" text-danger fs-6">{errors?.district}</p>
+                                            errors?.district && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.district}</p>
                                         }
                                     </div>
 
@@ -683,7 +688,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.state && <p className=" text-danger fs-6">{errors?.state}</p>
+                                            errors?.state && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.state}</p>
                                         }
                                     </div>
 
@@ -703,7 +708,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.pincode && <p className=" text-danger fs-6">{errors?.pincode}</p>
+                                            errors?.pincode && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.pincode}</p>
                                         }
                                     </div>
 
@@ -725,7 +730,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_house_name && <p className=" text-danger fs-6">{errors?.present_house_name}</p>
+                                            errors?.present_house_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_house_name}</p>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -744,7 +749,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_street_name && <p className=" text-danger fs-6">{errors?.present_street_name}</p>
+                                            errors?.present_street_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_street_name}</p>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -763,7 +768,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_city_name && <p className=" text-danger fs-6">{errors?.present_city_name}</p>
+                                            errors?.present_city_name && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_city_name}</p>
                                         }
                                     </div>
 
@@ -783,7 +788,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_landmark && <p className=" text-danger fs-6">{errors?.present_landmark}</p>
+                                            errors?.present_landmark && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_landmark}</p>
                                         }
                                     </div>
 
@@ -803,7 +808,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_district && <p className=" text-danger fs-6">{errors?.present_district}</p>
+                                            errors?.present_district && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_district}</p>
                                         }
                                     </div>
 
@@ -823,7 +828,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_state && <p className=" text-danger fs-6">{errors?.present_state}</p>
+                                            errors?.present_state && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_state}</p>
                                         }
                                     </div>
 
@@ -843,7 +848,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.present_pincode && <p className=" text-danger fs-6">{errors?.present_pincode}</p>
+                                            errors?.present_pincode && <p className=" text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.present_pincode}</p>
                                         }
                                     </div>
 
@@ -919,22 +924,22 @@ const PersonalLoanForm = ({ getID }) => {
                                                             <option value="" disabled selected>
                                                                 Types of Account
                                                             </option>
-                                                            <option value="home">
+                                                            <option value="Current Account">
                                                                 Current Account
                                                             </option>
-                                                            <option value="student">
+                                                            <option value="Saving Account">
                                                                 Saving Account
                                                             </option>
-                                                            <option value="personal">
+                                                            <option value="Salary Account">
                                                                 Salary Account
                                                             </option>
-                                                            <option value="Car">
+                                                            <option value="Fixed Deposit Account">
                                                                 Fixed Deposit Account
                                                             </option>
-                                                            <option value="Education">
+                                                            <option value="NRI Account">
                                                                 NRI Account
                                                             </option>
-                                                            <option value="Gold">
+                                                            <option value="DEMAT Account">
                                                                 DEMAT Account
                                                             </option>
                                                         </select>
@@ -978,7 +983,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.salary_slip && <div className="text-danger fs-6">{errors.salary_slip}</div>
+                                            errors?.salary_slip && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.salary_slip}</div>
                                         }
                                     </div>
                                     <div className="d-flex">
@@ -1010,7 +1015,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.form16 && <div className="text-danger fs-6">{errors.form16}</div>
+                                            errors?.form16 && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.form16}</div>
                                         }
                                     </div>
 
@@ -1031,7 +1036,7 @@ const PersonalLoanForm = ({ getID }) => {
 
                                         </div>
                                         {
-                                            errors?.job_experience && <div className="text-danger fs-6">{errors.job_experience}</div>
+                                            errors?.job_experience && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.job_experience}</div>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1051,7 +1056,7 @@ const PersonalLoanForm = ({ getID }) => {
 
                                         </div>
                                         {
-                                            errors?.designation && <div className="text-danger fs-6">{errors.designation}</div>
+                                            errors?.designation && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.designation}</div>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1070,7 +1075,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.current_salary && <div className="text-danger fs-6">{errors.current_salary}</div>
+                                            errors?.current_salary && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.current_salary}</div>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1090,7 +1095,7 @@ const PersonalLoanForm = ({ getID }) => {
 
                                         </div>
                                         {
-                                            errors?.company_name && <div className="text-danger fs-6">{errors.company_name}</div>
+                                            errors?.company_name && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.company_name}</div>
                                         }
                                     </div>
 
@@ -1110,7 +1115,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.current_job_experience && <div className="text-danger fs-6">{errors.current_job_experience}</div>
+                                            errors?.current_job_experience && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.current_job_experience}</div>
                                         }
                                     </div>
 
@@ -1132,7 +1137,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_building_name && <div className="text-danger fs-6">{errors.office_building_name}</div>
+                                            errors?.office_building_name && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_building_name}</div>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1151,7 +1156,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_street_name && <div className="text-danger fs-6">{errors.office_street_name}</div>
+                                            errors?.office_street_name && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_street_name}</div>
                                         }
                                     </div>
                                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1170,7 +1175,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_city_name && <div className="text-danger fs-6">{errors.office_city_name}</div>
+                                            errors?.office_city_name && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_city_name}</div>
                                         }
                                     </div>
 
@@ -1190,7 +1195,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_landmark && <div className="text-danger fs-6">{errors.office_landmark}</div>
+                                            errors?.office_landmark && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_landmark}</div>
                                         }
                                     </div>
 
@@ -1210,7 +1215,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_district && <div className="text-danger fs-6">{errors.office_district}</div>
+                                            errors?.office_district && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_district}</div>
                                         }
                                     </div>
 
@@ -1230,7 +1235,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_state && <div className="text-danger fs-6">{errors.office_state}</div>
+                                            errors?.office_state && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_state}</div>
                                         }
                                     </div>
 
@@ -1250,7 +1255,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.office_pincode && <div className="text-danger fs-6">{errors.office_pincode}</div>
+                                            errors?.office_pincode && <div className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors.office_pincode}</div>
                                         }
                                     </div>
 
@@ -1426,7 +1431,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.co_name && <p className="text-danger fs-6">{errors?.co_name}</p>
+                                            errors?.co_name && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.co_name}</p>
                                         }
                                     </div>
 
@@ -1438,7 +1443,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             <input
                                                 id="co_date_of_birth"
                                                 name="co_date_of_birth"
-                                                type="text"
+                                                type="date"
                                                 value={formData.co_date_of_birth}
                                                 onChange={handleInputChange}
                                                 placeholder="Date of Birth"
@@ -1446,7 +1451,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             />
                                         </div>
                                         {
-                                            errors?.co_date_of_birth && <p className="text-danger fs-6">{errors?.co_date_of_birth}</p>
+                                            errors?.co_date_of_birth && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.co_date_of_birth}</p>
                                         }
                                     </div>
 
@@ -1469,7 +1474,7 @@ const PersonalLoanForm = ({ getID }) => {
                                             </select>
                                         </div>
                                         {
-                                            errors?.occupation && <p className="text-danger fs-6">{errors?.occupation}</p>
+                                            errors?.occupation && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.occupation}</p>
                                         }
                                     </div>
 
@@ -1488,20 +1493,20 @@ const PersonalLoanForm = ({ getID }) => {
                                                 </option>
                                                 <option value="familymember">Mother</option>
                                                 <option value="friend">Father</option>
-                                                <option value="realtive">Brother</option>
-                                                <option value="realtive">Spouse</option>
+                                                <option value="Brother">Brother</option>
+                                                <option value="Spouse">Spouse</option>
                                             </select>
 
                                         </div>
                                         {
-                                            errors?.co_relation && <p className="text-danger fs-6">{errors?.co_relation}</p>
+                                            errors?.co_relation && <p className="text-danger fs-6" style={{marginTop:"-1rem"}}>{errors?.co_relation}</p>
                                         }
                                     </div>
                                     {/* Co Applicant Details End */}
 
 
 
-                                    <h3>Documents Upload </h3>
+                                    {/* <h3>Documents Upload </h3>
                                     <h4>KYC Documents : </h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
@@ -2030,7 +2035,7 @@ const PersonalLoanForm = ({ getID }) => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* Button */}
 

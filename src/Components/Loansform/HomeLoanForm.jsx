@@ -96,7 +96,7 @@ const HomeLoanForm = ({ getID }) => {
         const list = [...dividendArr2];
         list[index][name] = value;
         setDividendArr2(list);
-        console.log("Checking",dividendArr2);
+        console.log("Checking", dividendArr2);
     };
 
     const handleRemove = (index) => {
@@ -124,8 +124,8 @@ const HomeLoanForm = ({ getID }) => {
 
     const [progress, setProgress] = useState();
     const [formData, setFormData] = useState({
-         //home loan type
-         home_loan_type:"",
+        //home loan type
+        home_loan_type: "",
         // User Details
         userID: localStorage.getItem("userID"),
         fname: "",
@@ -157,7 +157,7 @@ const HomeLoanForm = ({ getID }) => {
         // Bank details section
         // loan history
         loan_check: "",
-        employment_type:"",
+        employment_type: "",
         // Co_Application User 
         co_name: "",
         co_date_of_birth: "",
@@ -166,7 +166,7 @@ const HomeLoanForm = ({ getID }) => {
         // business details
         loan_purpose: "",
         company_name: "",
-        firm_name:"",
+        firm_name: "",
         business_register_year: "",
         registration_documents: "",
         business_turnover: "",
@@ -252,7 +252,7 @@ const HomeLoanForm = ({ getID }) => {
 
 
     const handleClick = async (e) => {
-        
+
         e.preventDefault();
         console.log(formData);
 
@@ -290,37 +290,41 @@ const HomeLoanForm = ({ getID }) => {
                     data: bodyContent,
                     onUploadProgress: function (progressEvent) {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        console.log(`Upload Progress: ${percentCompleted}%`);
+                        // console.log(`Upload Progress: ${percentCompleted}%`);
+                        setProgress(percentCompleted);
                     }
                 };
 
                 let response = await axios.request(reqOptions);
-
                 if (response) {
-                    const response2 = await axios.post(`${backendUrl}/home_loan_uploadFiles/${response.data.id}`,
-                        newformData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                            onUploadProgress: ({ loaded, total }) => {
-                                setProgress(Math.round((loaded * 100) / total));
-                            }
-                        },
-
-                    );
-
-                    if (response2) {
-                        alert(response2.data.message);
-                        // getID(response2.data.id);
-                        navigate("/");
-                    } else {
-                        console.error("Error sending data to the backend");
-                    }
-                } else {
-                    // Handle error
-                    console.error("Error sending data to the backend");
+                    navigate(`/homeloan/doc/${response?.data.id}`);
                 }
+
+                // if (response) {
+                //     const response2 = await axios.post(`${backendUrl}/home_loan_uploadFiles/${response.data.id}`,
+                //         newformData,
+                //         {
+                //             headers: {
+                //                 "Content-Type": "multipart/form-data",
+                //             },
+                //             onUploadProgress: ({ loaded, total }) => {
+                //                 setProgress(Math.round((loaded * 100) / total));
+                //             }
+                //         },
+
+                //     );
+
+                //     if (response2) {
+                //         alert(response2.data.message);
+                //         // getID(response2.data.id);
+                //         navigate("/");
+                //     } else {
+                //         console.error("Error sending data to the backend");
+                //     }
+                // } else {
+                //     // Handle error
+                //     console.error("Error sending data to the backend");
+                // }
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -414,7 +418,6 @@ const HomeLoanForm = ({ getID }) => {
                                                                     Name of Bank
                                                                 </label>
                                                                 <input
-                                                                    // id={`dividend_stock_amount${index}`}
                                                                     id={`seller_bank_name ${index}`}
                                                                     name="seller_bank_name"
                                                                     type="text"
@@ -423,7 +426,6 @@ const HomeLoanForm = ({ getID }) => {
                                                                     onChange={(e) =>
                                                                         handleInputChange3(e, index)
                                                                     }
-                                                                    // onChange={handleInputChange}
                                                                     placeholder="Name of Bank"
                                                                     className="form-control"
                                                                     required
@@ -518,9 +520,7 @@ const HomeLoanForm = ({ getID }) => {
                                                 placeholder="Middle Name"
                                                 className="form-control"
                                             />
-                                            {/* {
-                                                errors?.fname && <p className="fs-6 text-danger">{errors.fname}</p>
-                                            } */}
+
                                         </div>
                                     </div>
 
@@ -1868,7 +1868,7 @@ const HomeLoanForm = ({ getID }) => {
                                             <input
                                                 id="co_date_of_birth"
                                                 name="co_date_of_birth"
-                                                type="text"
+                                                type="date"
                                                 value={formData.co_date_of_birth}
                                                 onChange={handleInputChange}
                                                 placeholder="Date of Birth"
@@ -1931,7 +1931,7 @@ const HomeLoanForm = ({ getID }) => {
 
 
                                     <h3>Documents Upload </h3>
-                                    <h4>KYC Documents : </h4>
+                                    {/* <h4>KYC Documents : </h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
                                             <h6 className="text-center">
@@ -2080,8 +2080,8 @@ const HomeLoanForm = ({ getID }) => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
-                                    {
+                                    </div> */}
+                                    {/* {
                                         formData?.employment_type === 'self_employed' &&
                                         <>
                                             <h4>Business Documents : </h4>
@@ -2344,8 +2344,8 @@ const HomeLoanForm = ({ getID }) => {
                                                 </div>
                                             </div>
                                         </>
-                                    }
-                                    {
+                                    } */}
+                                    {/* {
                                         formData?.employment_type === 'salaried' &&
                                         <>
                                             <h4>Job's Documents : </h4>
@@ -2593,10 +2593,10 @@ const HomeLoanForm = ({ getID }) => {
                                                 </div>
                                             </div>
                                         </>
-                                    }
+                                    } */}
 
 
-                                    <h4>Co-Applicant KYC Documents :</h4>
+                                    {/* <h4>Co-Applicant KYC Documents :</h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
                                             <h6 className="text-center">
@@ -2720,7 +2720,7 @@ const HomeLoanForm = ({ getID }) => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {
                                         formData?.property_mortgage === "yes" &&

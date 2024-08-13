@@ -4,8 +4,11 @@ import { Link, useParams } from 'react-router-dom';
 import { backendUrl } from '../../../env';
 import FormDetailsModal from '../FormDeatils/FormDeatilsModal';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import ConnectorViewModal from '../connector/ConnectorViewModal';
+import { ToastContainer, toast, useToast } from 'react-toastify';
+import { MdOutlineTypeSpecimen } from "react-icons/md";
+import { FaUpload } from "react-icons/fa";
+import { MdUpload } from "react-icons/md";
+import { Toast } from 'bootstrap/dist/js/bootstrap.min';
 
 const FormDetailTable = () => {
     const [data, setData] = useState();
@@ -13,6 +16,8 @@ const FormDetailTable = () => {
     const [statusEndPoint, setStatusEndPoint] = useState();
     const [deleteEndPoint, setdeleteEndPoint] = useState();
     const [status, setStatus] = useState();
+    const [path, setPath] = useState();
+    const [excelpath,setExcelPath]=useState();
 
     const userType = localStorage.getItem("user_type");
 
@@ -31,29 +36,39 @@ const FormDetailTable = () => {
         if (endpoint === "getallhomeloan") {
             setHeading("Home Loan Forms");
             setStatusEndPoint("home_loan_status");
-            setdeleteEndPoint("deletehomeLoan")
+            setdeleteEndPoint("deletehomeLoan");
+            setPath("/homeloan/doc/");
+            setExcelPath("home");
         }
         if (endpoint === "getAllGoldForms") {
             setHeading("Gold Loan Form");
             setStatusEndPoint("goldloan_status");
-            setdeleteEndPoint("delete_gold_loan")
+            setdeleteEndPoint("delete_gold_loan");
+            setPath('/goldloan/doc/');
+            setExcelPath("gold");
         }
         if (endpoint === "get_all_personal_loan") {
             setHeading("Personal Loan Form");
             setStatusEndPoint("update_personal_status");
-            setdeleteEndPoint("deletepersonalloan")
+            setdeleteEndPoint("deletepersonalloan");
+            setPath("/personalloan/doc/");
+            setExcelPath("persoanl")
         }
 
         if (endpoint === "get_all_vehicle_loan") {
             setHeading("Vehicle Loan Form");
             setStatusEndPoint("vehicle_loan_status");
-            setdeleteEndPoint("delete_vehicle_loan")
+            setdeleteEndPoint("delete_vehicle_loan");
+            setPath("/vehicleloan/doc/");
+            setExcelPath('vehicle');
         }
 
         if (endpoint === "getAllBusinessLoanForms") {
             setHeading("Business Loan Form");
             setStatusEndPoint("change_business_status");
-            setdeleteEndPoint("deletebusinessloan")
+            setdeleteEndPoint("deletebusinessloan");
+            setPath("/businessloan/business-doc/");
+            setExcelPath("business");
         }
     }, [endpoint, currentPage])
 
@@ -118,26 +133,69 @@ const FormDetailTable = () => {
         if (id) {
             LoanStatus(id);
         }
-    }, [status])
+    }, [status]);
+
+    function formatDate(isoString) {
+
+        if (!isoString) {
+            return ""
+        }
+        const date = new Date(isoString);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        const day = date.getDate();
+        const monthIndex = date.getMonth();
+        const year = date.getFullYear();
+        const monthName = months[monthIndex];
+        const formattedDate = `${day.toString().padStart(2, '0')}-${monthName}-${year}`;
+
+        return formattedDate;
+    }
 
 
+    const downloadExcel = async () => {
+        try {
+            const response = await axios.get(`${backendUrl}/download-${excelpath}-excel`, {
+                responseType: 'blob', // Important: Tell Axios to expect a binary blob
+            });
+
+            // Create a blob object URL for the download link
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'data.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        } catch (error) {
+            toast.error(error?.message);
+            console.error('Error downloading Excel:', error);
+            // Handle error
+        }
+    };
 
     return (
-        <div>
+        <div className='w-100'>
             <ToastContainer />
             <Sidebar>
-                <div className="container w-100">
+                <div className='d-flex justify-content-end'>
+                        <button className='btn btn-primary' onClick={downloadExcel}>Download {excelpath} Loan data in excel formate</button>
+                </div>
+                <div className=" w-100 " >
+                    
                     <h2 className='mx-4 '>{heading}</h2>
-                    <table className="table  mt-5 overflow-scroll border " >
-                        <thead>
+                    <table className="table w-100  mt-5 border " >
+                        <thead className='bg-primary text-white w-100'>
                             <tr>
-                                <th>App. No.</th>
-                                <th>User Name</th>
-                                <th>Remark</th>
-                                <th>Connector's Profile</th>
-                                <th>Status</th>
-                                <th>Applicant's Profile</th>
-                                <th>Add Remarks</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Date</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>App. No.</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>User Name</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Remark</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>DSA</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Status</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Form</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Add_Remark</th>
+                                <th className='' style={{ width: "10rem", fontSize: "0.9rem" }}>Other</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -145,21 +203,21 @@ const FormDetailTable = () => {
                             {
                                 data && data.map((item) => (
                                     <tr key={item?._id} >
-                                        <td>{item?.application_no}</td>
-                                        <td >{item?.applicant_kyc?.fname} {item?.applicant_kyc?.mname} {item?.applicant_kyc?.lname}</td>
-                                        <td >{item?.remarks}</td>
-                                        <td>
-                                            {/* <ConnectorViewModal data={item?.connector_id} /> */}
+                                        <td style={{ width: "300px" }}>{formatDate(item?.createdAt)}</td>
+                                        <td style={{ width: "200px" }}>{item?.application_no}</td>
+                                        <td style={{ width: "200px" }}>{item?.applicant_kyc?.fname} {item?.applicant_kyc?.mname} {item?.applicant_kyc?.lname}</td>
+                                        <td style={{ width: "200px", fontSize: "11px" }}>{item?.remarks}</td>
+                                        <td style={{ width: "70px" }}>
                                             <Link to={`/profile/${item?.connector_id}`} className='btn btn-primary px-2 py-1'><i class="fa-solid fa-address-card"></i></Link>
                                         </td>
-                                        <td className='d-flex gap-3'>
+                                        <td className=''>
 
                                             {
                                                 <select
                                                     id={`status`}
                                                     name="status"
-                                                    className="form-select py-1 px-1"
-                                                    style={{ width: "12rem" }}
+                                                    className="form-select py-1"
+                                                    style={{ width: "9rem", fontSize: "11px" }}
                                                     onChange={(e) => { handleStatus(e, item?._id) }}
                                                 >
                                                     <option value="Received" selected={item?.loan_status === "Received" ? true : false}>
@@ -174,14 +232,20 @@ const FormDetailTable = () => {
                                                     <option value="Rejected" selected={item?.loan_status === "Rejected" ? true : false}>Rejected</option>
                                                 </select>
                                             }
-
+                                            <p style={{ fontSize: "10px", textAlign: "center" }}>{item?.loan_status}</p>
 
                                         </td>
                                         <td>
                                             <FormDetailsModal data={item} />
                                         </td>
-                                        <td>
-                                            <Link to={`/remark/${endpoint}/${item?._id}`} className='btn btn-primary px-2 py-1'>Remarks</Link>
+                                        <td className=''>
+                                            {/* <Link to={`/remark/${endpoint}/${item?._id}`} className='btn btn-primary px-2 py-1'>Remarks</Link> */}
+                                            <Link to={`/remark/${endpoint}/${item?._id}`} className='btn btn-primary px-1 py-1 mx-1' title='Add Remark'>
+                                                <MdOutlineTypeSpecimen style={{ fontSize: "20px" }} />
+                                            </Link>
+                                            <Link to={`${path}${item?._id}`} className='btn btn-primary px-1 py-1 mx-1' title='Upload Documents'>
+                                                <MdUpload style={{ fontSize: "19px" }} />
+                                            </Link>
                                         </td>
 
                                         {

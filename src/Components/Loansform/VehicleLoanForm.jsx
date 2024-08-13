@@ -5,8 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom"
 import * as yup from 'yup';
 import { backendUrl } from "../../env";
 import { BusinessLoanValidation } from "./FormValidation";
+import { toast } from "react-toastify";
 
-const VehicleLoanForm = ({ getID }) => {
+const VehicleLoanForm = () => {
     let newformData = new FormData();
     const location = useLocation();
     const navigate = useNavigate();
@@ -224,7 +225,6 @@ const VehicleLoanForm = ({ getID }) => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        console.log(formData);
 
         try {
             await BusinessLoanValidation.validate(formData, { abortEarly: false });
@@ -259,38 +259,45 @@ const VehicleLoanForm = ({ getID }) => {
                     data: bodyContent,
                     onUploadProgress: function (progressEvent) {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        console.log(`Upload Progress: ${percentCompleted}%`);
+                        setProgress(percentCompleted);
                     }
                 };
 
                 let response = await axios.request(reqOptions);
 
-                if (response) {
-                    const response2 = await axios.post(
-                        `${backendUrl}/vehicle_loan_uploadFiles/${response.data.id}`,
-                        newformData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                            onUploadProgress: ({ loaded, total }) => {
-                                console.log(`current:${loaded}total:${total}`);
-                                setProgress(Math.round((loaded * 100) / total));
-                            }
-                        },
-
-                    );
-
-                    if (response2) {
-                        alert(response2.data.message);
-                        navigate("/");
-                    } else {
-                        console.error("Error sending data to the backend");
-                    }
-                } else {
-                    // Handle error
-                    console.error("Error sending data to the backend");
+                if(response){
+                    toast.success("Form Submitted");
+                    setTimeout(()=>{
+                        navigate(`/vehicleloan/doc/${response?.data?.id}`);
+                    },3000);
                 }
+
+                // if (response) {
+                //     const response2 = await axios.post(
+                //         `${backendUrl}/vehicle_loan_uploadFiles/${response.data.id}`,
+                //         newformData,
+                //         {
+                //             headers: {
+                //                 "Content-Type": "multipart/form-data",
+                //             },
+                //             onUploadProgress: ({ loaded, total }) => {
+                //                 console.log(`current:${loaded}total:${total}`);
+                //                 setProgress(Math.round((loaded * 100) / total));
+                //             }
+                //         },
+
+                //     );
+
+                //     if (response2) {
+                //         alert(response2.data.message);
+                //         navigate("/");
+                //     } else {
+                //         console.error("Error sending data to the backend");
+                //     }
+                // } else {
+                //     // Handle error
+                //     console.error("Error sending data to the backend");
+                // }
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -302,8 +309,8 @@ const VehicleLoanForm = ({ getID }) => {
                 });
                 setErrors(newError);
             }
+            toast.error(error?.message);
         }
-
     };
 
     return (
@@ -325,7 +332,6 @@ const VehicleLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`vehicle_loan_type`}
-                                                disabled={textDisabld}
                                                 name="vehicle_loan_type"
                                                 className="form-select"
                                                 value={formData.vehicle_loan_type}
@@ -355,7 +361,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`vehicle_profession_type`}
-                                                        disabled={textDisabld}
                                                         name="vehicle_profession_type"
                                                         className="form-select"
                                                         value={formData.vehicle_profession_type}
@@ -378,7 +383,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`when_purchase_vehicle`}
-                                                        disabled={textDisabld}
                                                         name="when_purchase_vehicle"
                                                         className="form-select"
                                                         value={formData.when_purchase_vehicle}
@@ -403,7 +407,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`vehicle_estimated_cost`}
-                                                        disabled={textDisabld}
                                                         name="vehicle_estimated_cost"
                                                         className="form-select"
                                                         value={formData.vehicle_estimated_cost}
@@ -429,7 +432,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`loan_you_need`}
-                                                        disabled={textDisabld}
                                                         name="loan_you_need"
                                                         className="form-select"
                                                         value={formData.loan_you_need}
@@ -456,7 +458,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="mb-3">
                                                     <select
                                                         id={`vehicle_file_itr`}
-                                                        disabled={textDisabld}
                                                         name="vehicle_file_itr"
                                                         className="form-select"
                                                         value={formData.vehicle_file_itr}
@@ -622,7 +623,6 @@ const VehicleLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`gender`}
-                                                disabled={textDisabld}
                                                 name="gender"
                                                 className="form-select"
                                                 value={formData.gender}
@@ -645,7 +645,6 @@ const VehicleLoanForm = ({ getID }) => {
                                         <div className="mb-3">
                                             <select
                                                 id={`marital_status`}
-                                                disabled={textDisabld}
                                                 name="marital_status"
                                                 className="form-select"
                                                 value={formData.marital_status}
@@ -1072,7 +1071,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                             onChange={(e) =>
                                                                 handleInputChange1(e, index)
                                                             }
-                                                        // onChange={handleInputChange}
                                                         >
                                                             <option value="" disabled selected>
                                                                 Types of Account
@@ -1149,7 +1147,6 @@ const VehicleLoanForm = ({ getID }) => {
 
                                     {
                                         formData.employment_type === "self_employed" &&
-                                        // }
                                         <>
                                             <h3>Business Details Section </h3>
 
@@ -1681,7 +1678,6 @@ const VehicleLoanForm = ({ getID }) => {
                                                 <div className="" key={index}>
                                                     <h3>
                                                         {" "}
-                                                        {/* {index === 0 && "Loan Repyment Details"}{" "} */}
                                                         {index === 0 && "Previous Loan History"}{" "}
                                                         <span>
                                                             {" "}
@@ -1890,8 +1886,8 @@ const VehicleLoanForm = ({ getID }) => {
 
 
 
-                                    <h3>Documents Upload </h3>
-                                    <h4>KYC Documents : </h4>
+                                    {/* <h3>Documents Upload </h3> */}
+                                    {/* <h4>KYC Documents : </h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
                                             <h6 className="text-center">
@@ -2039,8 +2035,8 @@ const VehicleLoanForm = ({ getID }) => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
-                                    {
+                                    </div> */}
+                                    {/* {
                                         formData?.employment_type === 'self_employed' &&
                                         <>
                                             <h4>Business Documents : </h4>
@@ -2303,8 +2299,8 @@ const VehicleLoanForm = ({ getID }) => {
                                                 </div>
                                             </div>
                                         </>
-                                    }
-                                    {
+                                    } */}
+                                    {/* {
                                         formData?.employment_type === 'salaried' &&
                                         <>
                                             <h4>Job's Documents : </h4>
@@ -2552,10 +2548,10 @@ const VehicleLoanForm = ({ getID }) => {
                                                 </div>
                                             </div>
                                         </>
-                                    }
+                                    } */}
 
 
-                                    <h4>Co-Applicant KYC Documents :</h4>
+                                    {/* <h4>Co-Applicant KYC Documents :</h4>
                                     <div className="col-xl-3 col-lg-2 col-md-12 col-sm-12 col-12">
                                         <div className="mb-3">
                                             <h6 className="text-center">
@@ -2679,7 +2675,7 @@ const VehicleLoanForm = ({ getID }) => {
                                                 </p>
                                             )}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* Button */}
 

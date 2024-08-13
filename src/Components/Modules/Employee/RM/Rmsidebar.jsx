@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Sidebar from '../../UserDashbord/Sidebar';
+import { SiGooglesheets } from "react-icons/si";
 
 const Rmsidebar = () => {
     const { pathname } = useLocation();
@@ -104,6 +105,19 @@ const Rmsidebar = () => {
                         <div className="list-item-hover">
                             <i class="fa-solid fa-briefcase me-2"></i>
                             <span className="fs-5 fw-bold fs-3 text-bold">Daily Work Report</span>
+                        </div>
+                    </Link>
+
+                    <Link
+                        // to="/emp_rm/work_report"
+                        to="/employee_data"
+                        className={`list-group-item list-group-item-action my-2 ${pathname === "/employee_data" ? "active" : null}`}
+                        // onClick={() => handleItemClick("/work_report")}
+                    >
+                        <div className="list-item-hover">
+                            {/* <i class="fa-solid fa-briefcase me-2"></i> */}
+                            <SiGooglesheets className='me-2'/>
+                            <span className="fs-5 fw-bold fs-3 text-bold">Sheets</span>
                         </div>
                     </Link>
 
