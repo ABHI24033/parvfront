@@ -340,7 +340,10 @@ const Home = () => {
             <Link to={'/loan_calculator'} className="mt-5 d-flex ">
               <button className="btn btn-danger mx-auto">Loan Calculator</button>
             </Link>
-            <a href="https://myscore.cibil.com/CreditView/enrollShort_new.page?enterprise=CIBIL&offer=FACRA&_gl=1*199azh9*_ga*MTcwNzk5MjE0NS4xNzE0NDU3MzAz*_ga_WVCRSGNX36*MTcxNDQ1NzMwMi4xLjAuMTcxNDQ1NzMwMi4wLjAuMA..*_ga_GGL6JJ79K2*MTcxNDQ1NzMwMy4xLjAuMTcxNDQ1NzMwMy42MC4wLjA.&_ga=2.15930614.1353129661.1714457304-1707992145.1714457303&atvy=%7B%22226333%22%3A%22Experience+A%22%7D" target="_blank" className="mt-5 d-flex mx-4">
+            {/* <a href="https://myscore.cibil.com/CreditView/enrollShort_new.page?enterprise=CIBIL&offer=FACRA&_gl=1*199azh9*_ga*MTcwNzk5MjE0NS4xNzE0NDU3MzAz*_ga_WVCRSGNX36*MTcxNDQ1NzMwMi4xLjAuMTcxNDQ1NzMwMi4wLjAuMA..*_ga_GGL6JJ79K2*MTcxNDQ1NzMwMy4xLjAuMTcxNDQ1NzMwMy42MC4wLjA.&_ga=2.15930614.1353129661.1714457304-1707992145.1714457303&atvy=%7B%22226333%22%3A%22Experience+A%22%7D" target="_blank" className="mt-5 d-flex mx-4">
+              <button className="btn btn-success">Check Credit Score</button>
+            </a> */}
+            <a href="https://poonawallafincorp.com/check-cibil-score.php" target="_blank" className="mt-5 d-flex mx-4">
               <button className="btn btn-success">Check Credit Score</button>
             </a>
           </div>
