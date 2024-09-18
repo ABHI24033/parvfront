@@ -14,7 +14,7 @@ function LoanCalculator() {
     const annualInterest = interestRate / 100;
     const monthlyInterest = annualInterest / 12;
     // const totalMonths = loanTerm * 12;
-    const totalMonths = loanTerm * 12;
+    const totalMonths = loanTerm;
 
     const emi =
       (principal * monthlyInterest * Math.pow(1 + monthlyInterest, totalMonths)) /
