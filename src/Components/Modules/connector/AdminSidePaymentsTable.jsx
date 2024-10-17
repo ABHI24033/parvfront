@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl } from '../../../env';
 import Sidebar from '../UserDashbord/Sidebar';
+import { useParams } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 
-const Paymentstable = () => {
-    const id = localStorage.getItem("userID");
+const AdminSidePaymentsTable = () => {
+    const {connector_id} = useParams();
+
     const [payments, setPayments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 5;
-    console.log(payments);
-    
 
     useEffect(() => {
         fetchPayments();
@@ -19,7 +21,7 @@ const Paymentstable = () => {
 
     const fetchPayments = async () => {
         try {
-            const response = await axios.get(`${backendUrl}/payments/${id}?page=${currentPage}&limit=${limit}`);
+            const response = await axios.get(`${backendUrl}/payments/${connector_id}?page=${currentPage}&limit=${limit}`);
             setPayments(response?.data?.payments);
             setTotalPages(response?.data?.totalPages);
         } catch (error) {
@@ -41,6 +43,18 @@ const Paymentstable = () => {
         return monthlyIncome;
     };
 
+    const deletePayments=async(id)=>{
+        try {
+            const deletePayments=await axios.delete(`${backendUrl}/payments/${id}`);
+            if(deletePayments?.status===200){
+                toast.success(deletePayments?.data?.message);
+                fetchPayments();
+            }
+        } catch (error) {
+            toast.error(error?.message);
+            console.log("Error while deleting payments",error);
+        }
+    }
     const monthlyIncomeData = getMonthlyIncomeData();
 
     const handlePageChange = (page) => {
@@ -86,23 +100,28 @@ const Paymentstable = () => {
                                     <td>{payment?.month}</td>
                                     <td>&#8377; {payment?.paymentAmount}</td>
                                     <td>{payment?.payment}</td>
+                                    <td>
+                                        <button className='btn btn-danger py-1 px-1' title='Delete'>
+                                            <MdDelete className='' style={{fontSize:"1.3rem"}} onClick={()=>deletePayments(payment?._id)}/>
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                     {/* Pagination */}
                     <div aria-label="..." className=' d-flex justify-content-center'>
-                        <ul class="pagination">
-                            <li class={`page-item ${currentPage === 1 ? "disabled" : null}`}>
-                                <a class="page-link" href="#" tabindex="-1" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                        <ul className="pagination">
+                            <li className={`page-item ${currentPage === 1 ? "disabled" : null}`}>
+                                <a className="page-link" href="#" tabindex="-1" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
                             </li>
                             {Array.from({ length: totalPages }, (_, index) => (
-                                <li class={`page-item ${currentPage === index + 1 ? "active" : null}`} onClick={() => handlePageChange(index + 1)} key={index}>
+                                <li className={`page-item ${currentPage === index + 1 ? "active" : null}`} onClick={() => handlePageChange(index + 1)} key={index}>
                                     <a class="page-link" href="#">{index + 1}</a>
                                 </li>
                             ))}
-                            <li class={`page-item ${currentPage === totalPages ? "disabled" : null}`}>
-                                <a class="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                            <li className={`page-item ${currentPage === totalPages ? "disabled" : null}`}>
+                                <a className="page-link" href="#" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
                             </li>
                         </ul>
                     </div>
@@ -134,4 +153,4 @@ const Paymentstable = () => {
     );
 };
 
-export default Paymentstable;
+export default AdminSidePaymentsTable;

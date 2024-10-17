@@ -103,6 +103,10 @@ import PersonalLoanDocumentsUpload from "./Components/Loansform/PersonalLoanDocu
 import HomeLoanDocumentsUpload from "./Components/Loansform/HomeLoanDocumentsUpload";
 import VehicleLoanDocumentUpload from "./Components/Loansform/VehicleLoanDocumentUpload";
 import GoldLoanDocumentsUpload from "./Components/Loansform/GoldLoanDocumentsUpload";
+import EnquiryForm from "./Components/Modules/connector/EnquiryForm";
+import AdminSidePaymentsTable from "./Components/Modules/connector/AdminSidePaymentsTable";
+import Enquirytable from "./Components/Modules/Admin/Enquirytable";
+import GoogleLinkAdmin from "./Components/Modules/Admin/GoogleLinkAdmin";
 
 function App() {
   console.log("userloggedin" + " = " + localStorage.getItem("userID"))
@@ -162,6 +166,9 @@ function App() {
         <Route path="/getAllBusinessLoanForms/:id" element={localStorage.getItem("userID") !== null ? <BusinessLoanEdit /> : <Login />} />
         <Route path="/add_payments/:id" element={localStorage.getItem("userID") !== null ? <AddPayment /> : <Login />} />
         <Route path="/show_payments" element={localStorage.getItem("userID") !== null ? <Paymentstable /> : <Login />} />
+        <Route path="/show_payment/:connector_id" element={localStorage.getItem("userID") !== null ? <AdminSidePaymentsTable /> : <Login />} />
+        <Route path="/enquiry_form" element={localStorage.getItem("userID") !== null ? <EnquiryForm /> : <Login />} />
+        <Route path="/show_enquiry" element={localStorage.getItem("userID") !== null ? <Enquirytable /> : <Login />} />
         {/* = */}
 
         {/* <Route path="/remark/:id" element={localStorage.getItem("userID") !== null ? <AddRemarks /> : <Login />} /> */}
@@ -179,6 +186,7 @@ function App() {
         <Route path="/employee_data" element={localStorage.getItem("userID") !== null ? <EmployeeDashboardTable /> : <Login />} />
         <Route path="/connectors" element={localStorage.getItem("userID") !== null ? <Connectors /> : <Login />} />
         <Route path="/employees" element={localStorage.getItem("userID") !== null ? <Employess /> : <Login />} />
+        <Route path="/employee/google-link/:id" element={localStorage.getItem("userID") !== null ? <GoogleLinkAdmin /> : <Login />} />
         <Route path="/add_employee" element={localStorage.getItem("userID") !== null ? <AddEmoloyee /> : <Login />} />
         <Route path="/sendblog" element={localStorage.getItem("userID") !== null ? <Sendblog /> : <Login />} />
         <Route path="/profile" element={localStorage.getItem("userID") !== null ? <ProfileAdmin /> : <Login />} />

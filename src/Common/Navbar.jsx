@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const [userData, setUserData] = useState();
   const { pathname } = useLocation();
-  // console.log(pathname);
+  console.log(userData);
   const navigate = useNavigate();
   const handlelogout = async () => {
     localStorage.removeItem("userID");
@@ -30,11 +30,10 @@ const Navbar = () => {
     const FetchUserDetails = async () => {
       const userID = localStorage.getItem("userID");
       const isLoggedIn = localStorage.getItem("isLoggedIn");
-      if (isLoggedIn) {
+      // if (isLoggedIn===true) {
+      if (userID) {
         try {
-          // const res = await axios.get(`https://us-central1-joyomoney-a8630.cloudfunctions.net/joyMoney/api/v1/getuserbyid/${userID}`)
-          const res = await axios.get(`${backendUrl}/getuserbyid/${userID}`)
-          console.log("Responce", res);
+          const res = await axios.get(`${backendUrl}/getuserbyid/${userID}`);
           setUserData(res?.data?.user);
         } catch (error) {
           console.log("error from fetch userDetails: ", error);

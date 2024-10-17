@@ -51,6 +51,7 @@ function ConnectorProfile() {
                                         <p class="mt-3 mb-1">{userinfo.user?.full_name}</p>
                                     </div>
                                 </div>
+
                                 <div class="card mb-4 mb-lg-0">
                                     <div class="card-body p-0">
                                         <ul class="list-group list-group-flush rounded-3">
@@ -63,7 +64,10 @@ function ConnectorProfile() {
                                         </ul>
                                     </div>
                                 </div>
-                                <h2>Documents</h2>
+                                <div className="flex my-2" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <h2>Documents</h2>
+                                    <button className="btn btn-primary px-2 py-2">Upload Documents</button>
+                                </div>
                                 <div class="card mb-4 mb-lg-0" >
                                     <div class="card-body p-0">
                                         <ul class="list-group list-group-flush rounded-3">
@@ -90,6 +94,10 @@ function ConnectorProfile() {
                             <div class="col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-body">
+                                        <div class="mb-4" style={{display:"flex",justifyContent:"end"}}>
+                                            <Link to={`/add_payments/${id}`} className="btn btn-primary px-2 py-2 mx-1">Add Payments</Link>
+                                            <Link to={`/show_payment/${id}`} className="btn btn-primary px-2 py-2 mx-1">Show Payments Details</Link>
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <p class="mb-0">Email</p>
@@ -112,7 +120,7 @@ function ConnectorProfile() {
                                             // <hr />
                                         }
 
-                                        
+
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <p class="mb-0">Mobile Number</p>
@@ -222,6 +230,7 @@ function ConnectorProfile() {
                                                 </p>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

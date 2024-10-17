@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { IoNewspaperSharp } from "react-icons/io5"
+
+
 const ConnectorSidebar = () => {
     const { pathname } = useLocation();
     const {endpoint}=useParams();
@@ -14,7 +17,6 @@ const ConnectorSidebar = () => {
         // Navigate to the corresponding route
         navigate(path);
     };
-
 
     const handleLogout = () => {
         localStorage.removeItem("isLoggedIn");
@@ -112,6 +114,18 @@ const ConnectorSidebar = () => {
                     <div className="list-item-hover">
                     <i class="fa-solid fa-indian-rupee-sign loanIcon"></i>
                         <span className="fs-5 fw-bold fs-3 text-bold"> Payments</span>
+                    </div>
+                </Link>
+
+                <Link
+                    to="/enquiry_form"
+                    className={`list-group-item list-group-item-action my-2 ${pathname === "/enquiry_form" ? "active" : null}`}
+                    // onClick={() => handleItemClick("/getAllSchoolForms")}
+                >
+                    <div className="list-item-hover">
+                    {/* <i class="fa-solid fa-indian-rupee-sign loanIcon"></i> */}
+                    <IoNewspaperSharp className='me-2' style={{fontSize:"1rem"}}/>
+                        <span className="fs-5 fw-bold fs-3 text-bold"> Enquiry Form</span>
                     </div>
                 </Link>
 

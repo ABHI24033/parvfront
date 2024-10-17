@@ -5,7 +5,7 @@ import "./sidebar.css";
 // import { backendUrl } from "../../../env";
 import ConnectorSidebar from "../connector/ConnectorSidebar";
 import Rmsidebar from "../Employee/RM/Rmsidebar";
-import { MdWork } from "react-icons/md";
+import { MdContacts, MdWork } from "react-icons/md";
 
 // import EmployeeDashboardTable from "../Admin/Employee/EmployeeDashboardTable";
 // import About from "../About";
@@ -89,7 +89,20 @@ const Sidebar = ({ children }) => {
                       >
                         <div className="list-item-hover">
                           <i class="fa-solid fa-address-book fs-4 me-2"></i>
+                          
                           <span className="fs-5 fw-bold fs-3 text-bold ">Contact Data</span>
+                        </div>
+                      </Link>
+                      <Link
+                        to="/show_enquiry"
+                        // to="/sidebar/homeservices"
+                        className={`list-group-item list-group-item-action my-2 ${pathname === "/show_enquiry" ? "active" : null}`}
+                        // onClick={() => handleItemClick("/contact_data")}
+                      >
+                        <div className="list-item-hover">
+                          {/* <i class="fa-solid fa-address-book fs-4 me-2"></i> */}
+                          <MdContacts className="fs-4 me-2"/>
+                          <span className="fs-5 fw-bold fs-3 text-bold ">Enquiry Data</span>
                         </div>
                       </Link>
 

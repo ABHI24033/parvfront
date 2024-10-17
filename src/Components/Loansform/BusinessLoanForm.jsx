@@ -198,7 +198,6 @@ const BusinessLoanForm = ({ getID }) => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        console.log(formData);
 
         try {
             await BusinessLoanValidation.validate(formData,{abortEarly:false});
@@ -206,8 +205,6 @@ const BusinessLoanForm = ({ getID }) => {
             const object = {
                 dividendArr,
                 dividendArr1,
-                // dividendArr2,
-                // dividendArr3,
                 formData,
                 connector_id: userId,
             };

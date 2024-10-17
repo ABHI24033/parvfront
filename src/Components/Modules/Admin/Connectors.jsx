@@ -4,12 +4,14 @@ import { backendUrl } from '../../../env';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../../utils/FormateDate';
 
 const Connectors = () => {
     const [connectors, setConnectors] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 10;
+    
     const fetchConnectors = async () => {
         try {
             const res = await axios.get(`${backendUrl}/getallconnectorUser?page=${currentPage}&limit=${limit}`);
@@ -66,10 +68,11 @@ const Connectors = () => {
                     <table className="table table-striped mt-5">
                         <thead>
                             <tr>
-                                <th>Sr.no</th>
+                                {/* <th>Sr.no</th> */}
                                 {/* <th>Form Id</th> */}
+                                <th>DSA Code </th>
+                                <th>Date</th>
                                 <th>Name</th>
-                                <th>Mobile Number</th>
                                 <th>Status</th>
                                 <th>Profile</th>
                                 <th>Payments</th>
@@ -78,12 +81,13 @@ const Connectors = () => {
                         </thead>
                         <tbody>
                             {
-                                connectors && connectors.map((item, index) => (
+                                connectors && connectors?.map((item, index) => (
                                     <tr key={item._id} >
-                                        <td>{index + 1}</td>
-                                        {/* <td>{item._id.slice(-6)}</td> */}
+                                        {/* <td>{index + 1}</td> */}
+                                        <td>{item?.code}</td>
+                                        <td>{formatDate(item?.createdAt)}</td>
                                         <td>{item?.full_name}</td>
-                                        <td>{item?.mobile_number}</td>
+                                        {/* <td>{item?.mobile_number}</td> */}
                                         {/* <td>{item?.whats_app_number}</td> */}
                                         <td className=' '>
                                             {item?.approved === true ?

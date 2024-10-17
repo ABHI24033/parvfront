@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 const Employess = () => {
     const [employee, setEmployee] = useState([]);
+    
     const fetchEmployeeData = async () => {
         try {
             const responce = await axios.get(`${backendUrl}/get_employee`);
@@ -72,25 +73,14 @@ const Employess = () => {
                                             <OpenProfileModal data={item} />
                                             <button className='btn btn-danger px-3 py-1' onClick={() => deleteEmployee(item?._id)}>Delete</button>
                                             {
-                                                // item?.user_type === "Employee-2" &&
                                                 <>
                                                     <EmployeeModel id={item?._id} />
-                                                    {/* <Link to={'/employee_data'} className='btn btn-primary mx-1 px-2 py-1'>Show Data</Link> */}
                                                 </>
                                             }
                                         </td>
-                                        {/* <td className='d-flex'>
-                                            {
-                                                item?.user_type === "Employee-2" &&
-                                                <>
-                                                    <EmployeeModel id={item?._id} />
-                                                    <Link to={'/employee_data'} className='btn btn-primary mx-1 px-2 py-1'>Show Data</Link>
-                                                </>
-                                            }
-                                        </td> */}
-
-
-
+                                        <td>
+                                            <Link to={`/employee/google-link/${item?._id}`}>Show Link</Link>
+                                        </td>
                                     </tr>
                                 ))
                             }

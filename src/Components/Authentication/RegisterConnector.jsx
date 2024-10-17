@@ -6,8 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import "./Signup.css";
 import { auth, db } from "./Firebase";
-// import { backendUrl } from "../../env";
-// import { backendUrl } from "../../../env";
 function RegisterConnector() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -60,7 +58,6 @@ function RegisterConnector() {
     try {
       const userCredential = await auth.createUserWithEmailAndPassword(formData?.email, formData?.password);
       const user = userCredential.user;
-      console.log(user);
 
       // Store user details in Firestore
       const response = await db.collection("users").doc(user.uid).set({

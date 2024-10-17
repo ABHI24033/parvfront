@@ -92,7 +92,6 @@ function Signup() {
         // console.log(response?.data);
         toast.success(data);
         setTimeout(() => {
-          // navigate("/login");
           navigate(`/upload_user_doc/${response?.data?.userid}`);
         }, 1500);
         localStorage.setItem("isLoggedIn", true);
@@ -101,6 +100,7 @@ function Signup() {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
+      setProgress(0);
       console.error("Signup error:", error);
     }
   };
